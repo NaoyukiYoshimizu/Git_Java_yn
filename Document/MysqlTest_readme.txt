@@ -1,4 +1,4 @@
-read
+
 MysqlTest.java についての注意事項と説明です。
 
 ■注意事項
@@ -11,17 +11,22 @@ mysql-connector-java-8.0.26.jar
 
 MySQLにて、以下のコマンドを実行後、MysqlTest.javaを実行してください。
 create database test_db;
-use test_db;
-create table test(
- id   varchar(3),
- name varchar(6)
- );
-insert into test values (1,'リンゴ');
-insert into test values (2,'ミカン');
-insert into test values (3,'ブドウ');
+
+すでにAddressBookテーブルがある場合はエラーとなりますので、
+元のAddressBookテーブルをバックアップし、削除してから実行することを推奨します。
 
 ■内容
-MySQLに接続し、testテーブルの内容をコンソールに表示する
+first commit
+MySQLに接続し、AddressBookテーブルを作成する
+AddressBookテーブルにデータを入れてコンソールに表示する
+コンソールに"Y"入力でAddressBookテーブルの内容をテーブルごと削除する
+
+second commit(主な追加部分）
+コンソールに"Y"入力で住所検索を開始
+ユーザー入力を含む文字列で検索してコンソールに表示する
+ユーザー入力文字を表示
+無い場合もコンソールに無いことを表示
+
 
 ■実行環境
 MySQL 8.0 Command Line Client
