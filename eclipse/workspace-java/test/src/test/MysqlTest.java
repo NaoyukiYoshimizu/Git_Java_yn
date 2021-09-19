@@ -1,4 +1,5 @@
 package test;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,6 +13,8 @@ public class MysqlTest {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		boolean b = false;
+		Scanner sc = new Scanner(System.in);
 
 		// SQL文の作成
 		String sql = "show tables";
@@ -33,7 +36,7 @@ public class MysqlTest {
 			con.createStatement().executeUpdate(sql);
 			sql = "insert into addressbook values (\'大阪　太郎\',71,\'大阪府大阪市中央区道頓堀１丁目８?２５')";
 			con.createStatement().executeUpdate(sql);
-			sql = "insert into addressbook values (\'唐木　崇行\',60,\'大阪府茨木市□□町4-5-6')";
+			sql = "insert into addressbook values (\'唐木　崇行\',60,\'茨城県茨木市□□町4-5-6')";
 			con.createStatement().executeUpdate(sql);
 			sql = "SELECT * FROM AddressBook";
 			// SQL実行準備
@@ -49,20 +52,58 @@ public class MysqlTest {
 
 				System.out.println(name + "|" + age+ "|" +address);
 			}
+			
+			
+			System.out.println("住所を検索しますか？Y/N");
+			String s = sc.nextLine();
+			if(s.equals("Y")) {
+				// ?に変数を入れる
+				System.out.println("検索する住所を入力");
+				s = sc.nextLine();
+				sql = "select * from test where address like ?";
+				// SQL実行準備
+				stmt = con.prepareStatement(sql);
+				
+				// 1つ目の?にeIdを当てはめて、部分一致で検索
+
+				stmt.setString(1,"%"+s+"%");
+				System.out.println(s+"が入力されました");
+			    rs = stmt.executeQuery();
+			    
+			 // データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+			    System.out.println("　名前　　|年|住所");
+			    while (rs.next()) {
+			    	String name = rs.getString("name");
+					int age = rs.getInt("age");
+					String address = rs.getString("address");
+
+					System.out.println(name + "|" + age+ "|" +address);
+					b = true;
+				}
+			    //データがないとき
+			    if(!b) System.out.println(s+"を含む住所はありません");
+				
+			}
+			
+			
+			//データ削除
 			System.out.println("データを消しますか？Y/N");
-			Scanner sc = new Scanner(System.in);
-			String name = sc.nextLine();
-			if(name.equals("Y")) {
+			
+			s = sc.nextLine();
+			if(s.equals("Y")) {
 				sql = "drop table AddressBook";
 				con.createStatement().executeUpdate(sql);
 			}
 			
+			stmt.close();
+
+			
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");
-		} catch (SQLException e) {
+		} catch (SQLException ex) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
-			System.out.println(e);
-			e.printStackTrace();
+			System.out.println(ex);
+			ex.printStackTrace();
 		} finally {
 			try {
 				if (con != null) {
