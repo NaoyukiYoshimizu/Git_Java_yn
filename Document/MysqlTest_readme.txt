@@ -1,4 +1,4 @@
-
+read
 MysqlTest.java についての注意事項と説明です。
 
 ■内容と注意事項
