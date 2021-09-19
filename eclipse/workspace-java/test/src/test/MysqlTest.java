@@ -64,7 +64,7 @@ public class MysqlTest {
 				// SQL実行準備
 				stmt = con.prepareStatement(sql);
 				
-				// 1つ目の?にeIdを当てはめて、部分一致で検索
+				// 1つ目の?に入力値を当てはめて、部分一致で検索
 
 				stmt.setString(1,"%"+s+"%");
 				System.out.println(s+"が入力されました");
