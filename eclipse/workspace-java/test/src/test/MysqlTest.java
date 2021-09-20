@@ -38,7 +38,7 @@ public class MysqlTest {
 			con.createStatement().executeUpdate(sql);
 			sql = "insert into addressbook values (\'唐木　崇行\',60,\'茨城県茨木市□□町4-5-6')";
 			con.createStatement().executeUpdate(sql);
-			sql = "SELECT * FROM AddressBook";
+			sql = "select * from AddressBook";
 			// SQL実行準備
 			stmt = con.prepareStatement(sql);
 			// 実行結果取得
@@ -60,7 +60,7 @@ public class MysqlTest {
 				// ?に変数を入れる
 				System.out.println("検索する住所を入力");
 				s = sc.nextLine();
-				sql = "select * from test where address like ?";
+				sql = "select * from AddressBook where address like ?";
 				// SQL実行準備
 				stmt = con.prepareStatement(sql);
 				
