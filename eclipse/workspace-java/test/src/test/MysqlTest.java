@@ -13,8 +13,12 @@ public class MysqlTest {
 		Scanner sc = new Scanner(System.in);
 		if(set.init()){
 			set.insert();
+			//Swingでの表示
+			JApplet_sql.sub();
+			//コンソールのみの表示
 			set.seach();
 			set.drop();
+
 			System.out.println("正常終了しました");
 		}else
 			System.out.println("エラー終了しました");	
