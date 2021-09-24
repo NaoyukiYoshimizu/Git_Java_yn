@@ -31,6 +31,8 @@ public class JApplet_sql extends JFrame implements ActionListener {
 	JTable table;
 	JTextField queryField;
 	JButton queryButton;
+	JTextField updateField;
+	JButton updateButton;
 
 	public static void sub() {
 		JApplet_sql obj = new JApplet_sql();
@@ -57,15 +59,29 @@ public class JApplet_sql extends JFrame implements ActionListener {
 		queryField = new JTextField("select * from addressBook;");
 		queryButton = new JButton("Submit");
 		queryButton.addActionListener(this);
+		JPanel queryPanel = new JPanel();
+		queryPanel.setLayout(new GridLayout(2, 1));
+		queryPanel.add(queryField);
+		queryPanel.add(queryButton);
+
+		// executeUpdate()用のテキスト・フィールドの作成
+		updateField = new JTextField(
+			"INSERT INTO addressBook (name,address) VALUES ('Google', 'http://www.google.co.jp/');");
+		updateButton = new JButton("DELETE/INSERT");
+		updateButton.addActionListener(this);
+		JPanel updatePanel = new JPanel();
+		updatePanel.setLayout(new GridLayout(2, 1));
+		updatePanel.add(updateField);
+		updatePanel.add(updateButton);
+
 		JPanel panel = new JPanel();
-		//panel.setTitle(new JFrame(JApplet.window_title);
 		panel.setLayout(new GridLayout(2, 1));
-		panel.add(queryField);
-		panel.add(queryButton);
+		panel.add(queryPanel);
+		panel.add(updatePanel);
 
 		// コンテント・ペインの取得
 		Container cont = getContentPane();
-		// コンテント・ペインに追加		
+		// コンテント・ペインに追加
 		cont.add(panel, BorderLayout.NORTH);
 		cont.add(scrollpane, BorderLayout.CENTER);
 
@@ -79,15 +95,26 @@ public class JApplet_sql extends JFrame implements ActionListener {
 
 	//　ボタン押したときの処理
 	public void actionPerformed(ActionEvent ae) {
-		String str = queryField.getText();
-		try {
-			rs = persistMgr.executeSQL(str);
-			model = new DataModel(rs);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
+		if (ae.getSource() == queryButton) {
+			String str = queryField.getText();
+			try {
+				rs = persistMgr.executeSQL(str);
+				model = new DataModel(rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return;
+			}
+			table.setModel(model);
+		} else if (ae.getSource() == updateButton) {
+			String str = updateField.getText();
+			try {
+				persistMgr.executeUpdate(str);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return;
+			}
+			table.setModel(model);
 		}
-		table.setModel(model);
 	}
 }
 
@@ -115,6 +142,11 @@ class PersistenceManager {
 	ResultSet executeSQL(String str) throws SQLException {
 		return stmt.executeQuery(str);
 	}
+	// 挿入／削除用のメソッド
+	int executeUpdate(String str) throws SQLException {
+		return stmt.executeUpdate(str);
+	}
+	
 }
 
 class DataModel extends AbstractTableModel {
