@@ -32,6 +32,15 @@ SQLの処理をSetsqlクラスとして分けました
 テーブル作成、挿入、検索、削除をそれぞれメソッドに分けました
 テーブル作成が成功すればSQLの他の処理を進めるようにしました
 
+four commit(主な追加部分）
+Swing処理用として、JApplet_sql.javaを追加
+2次元の表として、テーブル内容が全件出るようにした
+submitボタンでselect文のテーブル内容が出るようにした
+(コンソールの入力とは別となっています）
+
+five commit(主な追加部分）
+DELETE/INSERTボタンでDELETE/INSERT文のテーブル操作ができるようにした
+
 
 ■実行環境
 MySQL 8.0 Command Line Client
