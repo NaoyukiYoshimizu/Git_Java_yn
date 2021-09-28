@@ -12,16 +12,22 @@ public class MysqlTest {
 		Setsql set = new Setsql();
 		Scanner sc = new Scanner(System.in);
 		if(set.init()){
-			set.insert();
+			
 			//Swingでの表示
-			JApplet_sql.sub();
+			//JApplet_sql.sub();
 			//コンソールのみの表示
-			set.seach();
-			set.drop();
-
-			System.out.println("正常終了しました");
+			System.out.println("初期データ作成しました");
 		}else
-			System.out.println("エラー終了しました");	
+			System.out.println("エラー終了しました");
+		
+		System.out.println("データを入れますか？Y/N");
+		String s = sc.nextLine();
+		if(s.equals("Y")){
+			set.insert();
+			System.out.println("処理しました");
+		}
+		set.seach();
+		set.drop();
 		
 	}
 }
@@ -48,6 +54,27 @@ class Setsql {
 			// SQL実行
 			stmt = con.prepareStatement(this.sql);
 			con.createStatement().executeUpdate(this.sql);
+			// SQL実行 addressbookにデータを入れる
+			this.sql = "insert into AddressBook values (\'山田　花子\',47,\'大阪府堺市北区○○町1-2-\')";
+			con.createStatement().executeUpdate(this.sql);
+			this.sql = "insert into AddressBook values (\'大阪　太郎\',71,\'大阪府大阪市中央区道頓堀１丁目８?２５')";
+			con.createStatement().executeUpdate(this.sql);
+			this.sql = "insert into AddressBook values (\'唐木　崇行\',60,\'茨城県茨木市□□町4-5-6')";
+			con.createStatement().executeUpdate(this.sql);
+			this.sql = "select * from AddressBook";
+			// SQL実行準備
+			stmt = con.prepareStatement(this.sql);
+			// 実行結果取得
+			rs = stmt.executeQuery();
+			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+			System.out.println("　名前　　|年|住所");
+			while (rs.next()) {
+				String name = rs.getString("name");
+				int age = rs.getInt("age");
+				String address = rs.getString("address");
+
+				System.out.println(name + "|" + age + "|" + address);
+			}			
 			return true;
 
 		} catch (ClassNotFoundException e) {
@@ -75,25 +102,41 @@ class Setsql {
 	}
 
 	public void insert() {
+		String name;
+		int age;
+		String address;
+		System.out.println("挿入する名前を入力");
+		name = sc.nextLine();
+		System.out.println("挿入する年齢を入力");
+		age = sc.nextInt();
+		System.out.println("挿入する住所を入力");
+		address =sc.nextLine();
+		System.out.println("処理します");
 		try {
+			
+			
 			// SQL実行 addressbookにデータを入れる
-			this.sql = "insert into AddressBook values (\'山田　花子\',47,\'大阪府堺市北区○○町1-2-\')";
-			con.createStatement().executeUpdate(this.sql);
-			this.sql = "insert into AddressBook values (\'大阪　太郎\',71,\'大阪府大阪市中央区道頓堀１丁目８?２５')";
-			con.createStatement().executeUpdate(this.sql);
-			this.sql = "insert into AddressBook values (\'唐木　崇行\',60,\'茨城県茨木市□□町4-5-6')";
-			con.createStatement().executeUpdate(this.sql);
-			this.sql = "select * from AddressBook";
+			this.sql = "insert into AddressBook values (?,?,?)";
 			// SQL実行準備
+			stmt = con.prepareStatement(this.sql);
+
+			// 1つ目の?に入力値を当てはめて、部分一致で検索
+
+			stmt.setString(1,name);
+			stmt.setInt(2,age);
+			stmt.setString(3,address);
+			stmt.executeUpdate();
+			// SQL実行準備
+			this.sql = "select * from AddressBook";
 			stmt = con.prepareStatement(this.sql);
 			// 実行結果取得
 			rs = stmt.executeQuery();
 			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
 			System.out.println("　名前　　|年|住所");
 			while (rs.next()) {
-				String name = rs.getString("name");
-				int age = rs.getInt("age");
-				String address = rs.getString("address");
+				name = rs.getString("name");
+				age = rs.getInt("age");
+				address = rs.getString("address");
 
 				System.out.println(name + "|" + age + "|" + address);
 			}

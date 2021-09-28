@@ -27,6 +27,7 @@ public class JApplet_sql extends JFrame implements ActionListener {
 	PersistenceManager persistMgr;
 	TableModel model;
 	ResultSet rs;
+	String s;
 
 	JTable table;
 	JTextField queryField;
@@ -34,7 +35,7 @@ public class JApplet_sql extends JFrame implements ActionListener {
 	JTextField updateField;
 	JButton updateButton;
 
-	public static void sub() {
+	public static void main(String[] args)  {
 		JApplet_sql obj = new JApplet_sql();
 	}
 
@@ -44,7 +45,7 @@ public class JApplet_sql extends JFrame implements ActionListener {
 		persistMgr = new PersistenceManager();
 		// SQL 文の発行とモデルの取得
 		try {
-			rs = persistMgr.executeSQL("select * from addressBook");
+			rs = persistMgr.executeSQL(s);
 			model = new DataModel(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
