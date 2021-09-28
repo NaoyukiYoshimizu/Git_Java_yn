@@ -29,7 +29,7 @@ second commit(主な追加部分）
 
 three commit(主な追加部分）
 SQLの処理をSetsqlクラスとして分けました
-テーブル作成、挿入、検索、削除をそれぞれメソッドに分けました
+テーブル作成、挿入、検索、削除(DROP)をそれぞれメソッドに分けました
 テーブル作成が成功すればSQLの他の処理を進めるようにしました
 
 four commit(主な追加部分）
@@ -40,6 +40,10 @@ submitボタンでselect文のテーブル内容が出るようにした
 
 five commit(主な追加部分）
 DELETE/INSERTボタンでDELETE/INSERT文のテーブル操作ができるようにした
+
+six commit
+SwingのApplet_sql.javaとMysqlTest.javaを一旦分けた
+MysqlTest.javaにて、insertメソッドでコンソール入力内容をデータに入るようにした
 
 
 ■実行環境
