@@ -1,7 +1,11 @@
 <%@ page import="servret.Sqlsample00" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+ <%@ page import="model.Users" %>
+<%
+// セッションスコープに保存されたユーザー情報を取得
+Users loginUser = (Users) session.getAttribute("loginUser");
+%>
 <%
 Sqlsample00 sqlsam = new Sqlsample00();
 int i=0;
@@ -58,6 +62,20 @@ while (i<name.length) {
 <%			}%>
 </tr>
 </table>
+<form action="/WEB-sql/AddressBookIndex" method="post">
+<input type="text" name="text">
+<select name="operator">
+			<option value="id">id</option>
+			<option value="name">name</option>
+			<option value="address">address</option>
+			<option value="age">age</option>
+		</select>
+<input type="submit" value="検索">
+</form>
 <hr>
+<p>
+<%= loginUser.getName() %>さん、ログイン中
+<a href="/WEB-sql/Logout">ログアウト</a>
+</p>
 </body>
 </html>
