@@ -19,11 +19,30 @@ create table AddressBook(name varchar(7),age int,address varchar(100));
 
 ■内容
 first commit
+WebContentフォルダ
+sample.jsp
+servletパッケージ
 Sqlsample00.java
+
 MySQLに接続し、AddressBookテーブルにデータを入れます
 コンソールに"Y"入力でAddressBookテーブルの内容を削除します
-sample.jsp
 そのデータをインポートし、HTML(jsp)で表示します
+
+second commit
+modelパッケージ
+LoginLogic.java,Users.java
+servletパッケージ
+AddressBookIndex.java1,Login.java,Logout.java
+WebContentフォルダ
+index.jsp
+
+WecContent/WEB-INF/jspフォルダ
+loginResult.jsp,logout.jsp
+ログイン、ログアウト機能の追加
+(パスワードは1234に固定)
+ログイン後にアドレス帳を表示するように変更
+検索ボックス(表示のみ)追加
+
 
 
 ■実行環境
