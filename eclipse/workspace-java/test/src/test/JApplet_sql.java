@@ -58,7 +58,7 @@ public class JApplet_sql extends JFrame implements ActionListener {
 
 		// コンポーネントの作成
 		queryField = new JTextField("select * from addressBook;");
-		queryButton = new JButton("Submit");
+		queryButton = new JButton("Select");
 		queryButton.addActionListener(this);
 		JPanel queryPanel = new JPanel();
 		queryPanel.setLayout(new GridLayout(2, 1));
@@ -68,7 +68,7 @@ public class JApplet_sql extends JFrame implements ActionListener {
 		// executeUpdate()用のテキスト・フィールドの作成
 		updateField = new JTextField(
 			"INSERT INTO addressBook (name,address) VALUES ('Google', 'http://www.google.co.jp/');");
-		updateButton = new JButton("DELETE/INSERT");
+		updateButton = new JButton("Submit");
 		updateButton.addActionListener(this);
 		JPanel updatePanel = new JPanel();
 		updatePanel.setLayout(new GridLayout(2, 1));
@@ -103,7 +103,9 @@ public class JApplet_sql extends JFrame implements ActionListener {
 				model = new DataModel(rs);
 			} catch (SQLException e) {
 				e.printStackTrace();
-				return;
+				JOptionPane.showMessageDialog(
+				          null, "select文のみ入れてください\nもしくはコンソールのエラー内容を確認してください");
+			    return;
 			}
 			table.setModel(model);
 		} else if (ae.getSource() == updateButton) {
@@ -112,6 +114,8 @@ public class JApplet_sql extends JFrame implements ActionListener {
 				persistMgr.executeUpdate(str);
 			} catch (SQLException e) {
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+				          null, "DELETE/INSERT文のみ入れてください\nもしくはコンソールのエラー内容を確認してください");
 				return;
 			}
 			table.setModel(model);
