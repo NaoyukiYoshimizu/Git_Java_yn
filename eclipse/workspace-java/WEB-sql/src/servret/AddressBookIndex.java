@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import model.AdressBook;
 import model.GetAdressListLogic;
+import model.PostAdressLogic;
 import model.Users;
 
 /**
@@ -38,13 +39,36 @@ public class AddressBookIndex extends HttpServlet {
 			response.sendRedirect("/WEB-sql/");
 		} else { // ログイン済み
 			// フォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/sample.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// リクエストパラメータを取得
+		request.setCharacterEncoding("UTF-8");
+		String text = request.getParameter("num1");
+		String seach = request.getParameter("operator");
 
+		// リクエストパラメータチェック
+		String errorMsg = "";
+		if (text == null || text.length() == 0) {
+			errorMsg += "最初空白だよ<br>";
+		}
+
+		// エラーメッセージをリクエストスコープに保存
+		request.setAttribute("errorMsg", errorMsg);
+		if (text.length() != 0 ) {
+			// 入力値をプロパティに設定
+			AdressBook filterAdressBook = new AdressBook(text,seach);
+			PostAdressLogic postAdressLogic = new PostAdressLogic();
+			postAdressLogic.execute(filterAdressBook);
+			// リクエストスコープに保存
+			request.setAttribute("filterAdressBook", filterAdressBook);
+		}
+		// フォワード
+		RequestDispatcher dis = request.getRequestDispatcher("/AdressBookCheckResult.jsp");
+		dis.forward(request, response);
 	}
 }
