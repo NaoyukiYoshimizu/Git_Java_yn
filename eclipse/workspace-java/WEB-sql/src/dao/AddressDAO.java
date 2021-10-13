@@ -31,7 +31,7 @@ public class AddressDAO {
 			// データベース接続
 			con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/test_db?characterEncoding=UTF-8&serverTimezone=Japan", "root",
-					"1Root2");
+					"root");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");

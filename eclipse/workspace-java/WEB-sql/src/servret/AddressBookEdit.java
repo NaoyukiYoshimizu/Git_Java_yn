@@ -95,10 +95,21 @@ public class AddressBookEdit extends HttpServlet {
 			if (after == null || after.length() == 0) {
 				errorMsg += "空白です<br>";
 			}
+			// AdressBookList作成
+			GetAdressListLogic getAdressBookListLogic = new GetAdressListLogic();
+			List<AdressBook> AdressBookList = getAdressBookListLogic.execute();
 			if (after.matches("[0-9]{1,}") && choose.equals("name")) {
 				errorMsg += "全角で入力してください";
 			} else if (after.matches("[a-zA-Z]{1,}") && (choose.equals("id") || choose.equals("age"))) {
 				errorMsg += "数字で入力してください";
+			} else if (choose.equals("id")) {
+				for (AdressBook adressbook : AdressBookList) {
+					int afterint = Integer.parseInt(after);
+					if (adressbook.getId() == afterint) {
+						errorMsg += "既にある数字です";
+						break;
+					}
+				}
 			}
 			// エラーメッセージをリクエストスコープに保存
 			request.setAttribute("errorMsg", errorMsg);

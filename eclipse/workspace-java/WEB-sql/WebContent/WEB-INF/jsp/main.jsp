@@ -26,13 +26,10 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	%>
 	<p>入力エラー</p>
 	<p><%=errorMsg%></p><br>
-	<h2>一致するデータはありません</h2>
+	<h2>編集しませんでした</h2>
 	<%
 	}
-	%>		
-	<%		
-	if ((errorMsg == null || errorMsg.length() == 0) && AdressBookList != null) {
-	%>	
+	%>			
 	<table border="1" style="width: 50%">
 		<tr style="width: 450px">
 			<th bgcolor="silver">id</th>
@@ -75,9 +72,7 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 			%>
 		</tr>
 	</table>
-	<%
-	}
-	%>
+
 	<hr>
 	<br>
 	<form action="/WEB-sql/AddressBookIndex" method="post">
