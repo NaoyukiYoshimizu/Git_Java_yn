@@ -6,6 +6,8 @@
 Users loginUser = (Users) session.getAttribute("loginUser");
 //リクエストスコープに保存されたリストを取得
 List<AdressBook> AdressBookList = (List<AdressBook>) request.getAttribute("AdressBookList");
+//リクエストスコープに保存されたエラーメッセージを取得
+String errorMsg = (String) request.getAttribute("errorMsg");
 %>
 <!DOCTYPE html>
 <html lang="ja">
@@ -19,8 +21,20 @@ List<AdressBook> AdressBookList = (List<AdressBook>) request.getAttribute("Adres
 	</p><br>
 <hr>
 	<h1>アドレス帳メイン</h1>
-	<table border="1" style="width: 450px">
-		<tr>
+	<%
+	if (errorMsg.length() != 0) {
+	%>
+	<p>入力エラー</p>
+	<p><%=errorMsg%></p><br>
+	<h2>一致するデータはありません</h2>
+	<%
+	}
+	%>		
+	<%		
+	if ((errorMsg == null || errorMsg.length() == 0) && AdressBookList != null) {
+	%>	
+	<table border="1" style="width: 50%">
+		<tr style="width: 450px">
 			<th bgcolor="silver">id</th>
 			<%
 			for (AdressBook adressbook : AdressBookList) {
@@ -61,15 +75,20 @@ List<AdressBook> AdressBookList = (List<AdressBook>) request.getAttribute("Adres
 			%>
 		</tr>
 	</table>
+	<%
+	}
+	%>
 	<hr>
 	<br>
 	<form action="/WEB-sql/AddressBookIndex" method="post">
-		<input type="text" name="text"> <select name="operator">
+		<input type="text" name="text"> 
+		<select name="operator">
 			<option value="id">id</option>
 			<option value="name">name</option>
 			<option value="address">address</option>
 			<option value="age">age</option>
-		</select> <input type="submit" value="検索">
+		</select> <input type="submit" name="done" value="検索"><br>
+		<input type="submit" name="done" value="編集">
 	</form>
 
 </body>

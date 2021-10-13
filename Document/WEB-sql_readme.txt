@@ -28,13 +28,16 @@ second commitからログイン機能が実装されましたので、
  ユーザー名 yamada
  パスワード 1234
 
-MySQLにて、以下のコマンドを実行後、sample.jspを実行してください。
+MySQLにて、以下のコマンドを実行後、WEB-sqlを実行してください。
+-- テーブル作成
 create database test_db;
+-- テーブル作成
 create table AddressBook(
-id      int 		primary key,
+id      int 		primary key auto_increment,
 name    varchar(7),
 age     int,
 address varchar(100));
+-- 初期データの挿入
 insert into addressbook values (1,'山田　花子',47,'大阪府堺市北区○○町1-2-');
 insert into addressbook values (2,'大阪　太郎',71,'大阪府大阪市中央区道頓堀１丁目８?２５');
 insert into addressbook values (3,'唐木　崇行',60,'大阪府茨木市□□町4-5-6');
@@ -73,10 +76,10 @@ third commit
   AddressDAO.java
  modelパッケージ
   AdressBook.java,GetAdressListLogic.java,PostAdressLogic.java
- servletパッケージ
+ servretパッケージ
   AddressBookIndex.java,Login.java,Logout.java 
  WecContent/WEB-INF/jspフォルダ
- main.jsp,Result.jsp
+  main.jsp,Result.jsp
 
  \pleiades\eclipse\workspace-java\WEB-sqlにEclipseへのインポートに必要な
   .classpath,.projectを追加
@@ -85,6 +88,43 @@ third commit
  AddressBookIndex.javaのdogetにて全件取得し、main.jspで出力する
  AddressBookIndex.javaのdopostで検索を行う予定
  Result.jspに結果を表示する予定
+ 
+four commit
+ 追加ファイル
+ testパッケージ
+  AddressbookLogicTest.java
+ modelパッケージ
+  Seach.java
+ 
+ 更新ファイル
+ daoパッケージ
+  AddressDAO.java
+ modelパッケージ
+  PostAdressLogic.java,Seach.java
+ servretパッケージ
+  AddressBookIndex.java
+ WecContent/WEB-INF/jspフォルダ
+  main.jsp,Result.jsp
+ WecContent
+  index.jsp
+
+ 検索用DAOメソッド、検索用BeansのSeach.javaとした
+ サーブレット、jspも併せて修正
+ test用プログラムを作成
+ レイアウトを若干変更
+ 編集ボタンを追加
+
+five commit
+ 追加ファイル
+ servretパッケージ
+  AddressBookEdit.java
+ WecContent/WEB-INF/jspフォルダ
+  edit.jsp
+  
+ 更新ファイル
+ first commitとtestパッケージ以外のファイル全て
+ 
+ 
 
 
 ■実行環境

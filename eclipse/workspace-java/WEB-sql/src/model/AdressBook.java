@@ -5,8 +5,11 @@ import java.io.Serializable;
 public class AdressBook implements Serializable {
 	private int id, age;
 	private String name, address;
-	private String seach;
+	private String columns;
 	private String text;
+	private String before;
+	private String after;
+	private String choose;
 	
 	public AdressBook() {
 		
@@ -18,19 +21,42 @@ public class AdressBook implements Serializable {
 		this.address = address;
 	}
 
-	public AdressBook(int id, String name, int age, String address, String seach) {
+	public AdressBook(int id, String name, int age, String address, String columns) {
 		this.id = id;
 		this.age = age;
 		this.name = name;
 		this.address = address;
-		this.seach = seach;
+		this.columns = columns;
+	}
+	
+	public AdressBook(String name, int age, String address) {
+		this.age = age;
+		this.name = name;
+		this.address = address;
 	}
 
-	public AdressBook(String text, String seach) {
+	public AdressBook(String columns,String text) {
 		this.text = text;
-		this.seach = seach;
+		this.columns = columns;
 	}
 
+	public AdressBook(String before, String after, String choose) {
+		this.before = before;
+		this.after = after;
+		this.choose = choose;
+	}
+	public String getBefore() {
+		return before;
+	}
+
+	public String getAfter() {
+		return after;
+	}
+
+	public String getChoose() {
+		return choose;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -47,8 +73,8 @@ public class AdressBook implements Serializable {
 		return address;
 	}
 
-	public String getSeach() {
-		return seach;
+	public String getColumns() {
+		return columns;
 	}
 
 	public String getText() {
