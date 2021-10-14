@@ -58,6 +58,7 @@ public class AddressBookEdit extends HttpServlet {
 		String newaddress = request.getParameter("newaddress");
 		String before = request.getParameter("before");
 		String after = request.getParameter("after");
+		int afterint = 0;
 		String choose = request.getParameter("choose");
 		// 名前のパターンの生成（姓名を入力、間に全角空白）
 		// 「[^ -~｡-ﾟ]+」は「全角以上1回以上の繰り返し」
@@ -76,13 +77,18 @@ public class AddressBookEdit extends HttpServlet {
 			if (newage.matches("[a-zA-Z]{1,}")) {
 				errorMsg += "数字で入力してください";
 			}
+			int age = Integer.parseInt(newage);
+			if (age < 0) {
+				errorMsg += "正の数で入力してください";
+			}
 			// エラーメッセージをリクエストスコープに保存
 			request.setAttribute("errorMsg", errorMsg);
 			// 入力値をプロパティに設定
-			int age = Integer.parseInt(newage);
-			AdressBook adressBook = new AdressBook(newname, age, newaddress);
-			PostAdressLogic postAdressLogic = new PostAdressLogic();
-			postAdressLogic.create(adressBook);
+			if (newname.length() != 0 && errorMsg.length() == 0) {
+				AdressBook adressBook = new AdressBook(newname, age, newaddress);
+				PostAdressLogic postAdressLogic = new PostAdressLogic();
+				postAdressLogic.create(adressBook);
+			}
 		} else if (done.equals("更新")) {
 			if (before == null || before.length() == 0) {
 				errorMsg += "空白です<br>";
@@ -94,7 +100,7 @@ public class AddressBookEdit extends HttpServlet {
 			}
 			if (after == null || after.length() == 0) {
 				errorMsg += "空白です<br>";
-			}
+			}						
 			// AdressBookList作成
 			GetAdressListLogic getAdressBookListLogic = new GetAdressListLogic();
 			List<AdressBook> AdressBookList = getAdressBookListLogic.execute();
@@ -103,12 +109,20 @@ public class AddressBookEdit extends HttpServlet {
 			} else if (after.matches("[a-zA-Z]{1,}") && (choose.equals("id") || choose.equals("age"))) {
 				errorMsg += "数字で入力してください";
 			} else if (choose.equals("id")) {
+				afterint = Integer.parseInt(after);
+				if (afterint < 0) {
+					errorMsg += "正の数で入力してください";
+				}
 				for (AdressBook adressbook : AdressBookList) {
-					int afterint = Integer.parseInt(after);
+					afterint = Integer.parseInt(after);
 					if (adressbook.getId() == afterint) {
 						errorMsg += "既にある数字です";
 						break;
 					}
+				}
+			}else if (choose.equals("age")) {
+				if (afterint < 0) {
+					errorMsg += "正の数で入力してください";
 				}
 			}
 			// エラーメッセージをリクエストスコープに保存
@@ -122,12 +136,12 @@ public class AddressBookEdit extends HttpServlet {
 		} else {
 			if (text == null || text.length() == 0) {
 				errorMsg += "空白です<br>";
-			}
-			if (text.matches("[a-zA-Z]{1,}") && columns.equals("id")) {
+			} else if (text.matches("[a-zA-Z]{1,}") && columns.equals("id")) {
 				errorMsg += "数字で入力してください";
 			}
 			// エラーメッセージをリクエストスコープに保存
 			request.setAttribute("errorMsg", errorMsg);
+
 			if (text.length() != 0 && errorMsg.length() == 0) {
 				// 入力値をプロパティに設定
 				AdressBook adressBook = new AdressBook(columns, text);

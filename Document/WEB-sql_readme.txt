@@ -14,6 +14,17 @@ MySQLの処理をjava→WEBから操作できるようにしたい
 コンソールではなく、GUIで見れるようにしたい
 よりユーザーが入力しやすい形にしたい
 
+■機能
+・ログイン機能
+・ログアウト機能
+・項目別検索機能
+・新規作成機能
+・1列削除機能
+・項目別更新機能
+・データベース記録機能
+・削除後、自動連番機能
+
+
 ■注意事項
 ディレクトリは
 \pleiades\eclipse\workspace-java\WEB-sql
@@ -29,7 +40,7 @@ second commitからログイン機能が実装されましたので、
  パスワード 1234
 
 MySQLにて、以下のコマンドを実行後、WEB-sqlを実行してください。
--- テーブル作成
+-- データベース作成
 create database test_db;
 -- テーブル作成
 create table AddressBook(
@@ -42,6 +53,7 @@ insert into addressbook values (1,'山田　花子',47,'大阪府堺市北区○
 insert into addressbook values (2,'大阪　太郎',71,'大阪府大阪市中央区道頓堀１丁目８?２５');
 insert into addressbook values (3,'唐木　崇行',60,'大阪府茨木市□□町4-5-6');
 
+-- 以上、データベースコマンド終了
 
 すでにAddressBookテーブルがある場合はエラーとなりますので、
 元のAddressBookテーブルをバックアップし、削除してから実行することを推奨します。
@@ -129,6 +141,12 @@ five commit
  データベースの方にも記録される
  レイアウトを若干変更
  
+six commit
+ 更新ファイル
+  AddressBookEdit.java
+
+ 更新時に、id,ageに対し、負の数を設定できないようにした
+
 
 
 ■実行環境
