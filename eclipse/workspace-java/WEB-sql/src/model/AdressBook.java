@@ -45,6 +45,10 @@ public class AdressBook implements Serializable {
 		this.after = after;
 		this.choose = choose;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getBefore() {
 		return before;
 	}

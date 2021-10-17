@@ -14,6 +14,7 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 <head>
 <meta charset="UTF-8">
 <title>アドレス帳</title>
+<link rel="stylesheet" href="css/timesheet.css">
 </head>
 <body>
 	<p>
@@ -30,9 +31,9 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	<%
 	}
 	%>			
-	<table border="1" style="width: 50%">
-		<tr style="width: 450px">
-			<th bgcolor="silver">id</th>
+	<table>
+		<tr>
+			<th>id</th>
 			<%
 			for (AdressBook adressbook : AdressBookList) {
 			%>

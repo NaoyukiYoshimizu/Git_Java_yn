@@ -15,6 +15,7 @@ List<Seach> findSeachList = (List<Seach>) request.getAttribute("findSeachList");
 <head>
 <meta charset="UTF-8">
 <title>アドレス帳</title>
+<link rel="stylesheet" href="css/timesheet.css">
 </head>
 <body>
 	<p>
@@ -40,9 +41,9 @@ List<Seach> findSeachList = (List<Seach>) request.getAttribute("findSeachList");
 	<%		
 		}
 	%>
-	<table border="1" style="width: 450px">
+	<table>
 		<tr>
-			<th bgcolor="silver">id</th>
+			<th>id</th>
 			<%
 			for (Seach Seach : findSeachList) {
 			%>

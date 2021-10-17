@@ -31,7 +31,7 @@ public class AddressDAO {
 			// データベース接続
 			con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/test_db?characterEncoding=UTF-8&serverTimezone=Japan", "root",
-					"root");
+					"1Root2");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");
@@ -45,10 +45,8 @@ public class AddressDAO {
 	// 全件取得
 	public List<AdressBook> findAll() {
 		List<AdressBook> adressBookList = new ArrayList<>();
-
 		// SQL文の作成
 		String sql = "";
-
 		try {
 			driver();
 			sql = "SELECT * FROM AddressBook";
@@ -63,7 +61,6 @@ public class AddressDAO {
 				this.address = rs.getString("ADDRESS");
 				AdressBook adressBook = new AdressBook(id, name, age, address);
 				adressBookList.add(adressBook);
-
 			}
 
 		} catch (SQLException e) {
@@ -92,7 +89,6 @@ public class AddressDAO {
 				String sql = "SELECT * FROM AddressBook WHERE ID = ?";
 				// SQL実行準備
 				stmt = con.prepareStatement(sql);
-
 				// ?に入力値を当てはめて、部分一致で検索
 				stmt.setString(1, seach.getText());
 				rs = stmt.executeQuery();
@@ -125,7 +121,6 @@ public class AddressDAO {
 					String sql = "SELECT * FROM AddressBook WHERE NAME = ?";
 					// SQL実行準備
 					stmt = con.prepareStatement(sql);
-
 					// ?に入力値を当てはめて、部分一致で検索
 					stmt.setString(1, seach.getText());
 					rs = stmt.executeQuery();
@@ -159,7 +154,6 @@ public class AddressDAO {
 				String sql = "SELECT * FROM AddressBook WHERE AGE = ?";
 				// SQL実行準備
 				stmt = con.prepareStatement(sql);
-
 				// ?に入力値を当てはめて、部分一致で検索
 				stmt.setString(1, seach.getText());
 				rs = stmt.executeQuery();
@@ -191,7 +185,6 @@ public class AddressDAO {
 				String sql = "SELECT * FROM AddressBook WHERE ADDRESS like ?";
 				// SQL実行準備
 				stmt = con.prepareStatement(sql);
-
 				// ?に入力値を当てはめて、部分一致で検索
 				stmt.setString(1, "%" + seach.getText() + "%");
 				rs = stmt.executeQuery();
@@ -232,7 +225,6 @@ public class AddressDAO {
 			stmt.setString(1, adressBook.getName());
 			stmt.setInt(2, adressBook.getAge());
 			stmt.setString(3, adressBook.getAddress());
-
 			// INSERT文を実行
 			int result = stmt.executeUpdate();
 
@@ -254,12 +246,10 @@ public class AddressDAO {
 		try {
 			driver();
 			// DELETE文の準備
-			// データベース接続
 			String sql = "DELETE FROM AddressBook WHERE ID=?";
 			stmt = con.prepareStatement(sql);
 			// DELETE文中の「?」に使用する値を設定しSQLを完成
 			stmt.setString(1, adressBook.getText());
-
 			// DELETE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
 			int result = stmt.executeUpdate();
 			if (result == 1) {
@@ -276,7 +266,7 @@ public class AddressDAO {
 						return false;
 					}
 				}
-				sql = "alter table AddressBook auto_increment = ?";
+				sql = "ALTER TABLE AddressBook AUTO_INCREMENT = ?";
 				stmt = con.prepareStatement(sql);
 				stmt.setInt(1, AdressBookList.size());
 				stmt.executeUpdate();
@@ -301,7 +291,7 @@ public class AddressDAO {
 				// UPDATE文中の「?」に使用する値を設定しSQLを完成
 				stmt.setString(1, adressBook.getAfter());
 				stmt.setString(2, adressBook.getBefore());
-
+				//stmt.setInt(3, adressBook.getId());
 				// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
 				int result = stmt.executeUpdate();
 				if (result != 1) {
@@ -316,12 +306,12 @@ public class AddressDAO {
 				try {
 					driver();
 					// UPDATE文の準備
-					String sql = "UPDATE AddressBook SET NAME=? WHERE NAME=?";
+					String sql = "UPDATE AddressBook SET NAME=? WHERE NAME=? AND ID=?";
 					stmt = con.prepareStatement(sql);
 					// UPDATE文中の「?」に使用する値を設定しSQLを完成
 					stmt.setString(1, adressBook.getAfter());
 					stmt.setString(2, adressBook.getBefore());
-
+					stmt.setInt(3, adressBook.getId());
 					// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
 					int result = stmt.executeUpdate();
 					if (result != 1) {
@@ -334,17 +324,16 @@ public class AddressDAO {
 			} else {
 				return false;
 			}
-
 		} else if (adressBook.getChoose().matches("age")) {
 			try {
 				driver();
 				// UPDATE文の準備
-				String sql = "UPDATE AddressBook SET AGE=? WHERE AGE=?";
+				String sql = "UPDATE AddressBook SET AGE=? WHERE AGE=? AND ID=?";
 				stmt = con.prepareStatement(sql);
 				// UPDATE文中の「?」に使用する値を設定しSQLを完成
 				stmt.setString(1, adressBook.getAfter());
 				stmt.setString(2, adressBook.getBefore());
-
+				stmt.setInt(3, adressBook.getId());
 				// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
 				int result = stmt.executeUpdate();
 				if (result != 1) {
@@ -358,12 +347,12 @@ public class AddressDAO {
 			try {
 				driver();
 				// UPDATE文の準備
-				String sql = "UPDATE AddressBook SET ADDRESS=? WHERE ADDRESS=?";
+				String sql = "UPDATE AddressBook SET ADDRESS=? WHERE ADDRESS=? AND ID=?";
 				stmt = con.prepareStatement(sql);
 				// UPDATE文中の「?」に使用する値を設定しSQLを完成
 				stmt.setString(1, adressBook.getAfter());
 				stmt.setString(2, adressBook.getBefore());
-
+				stmt.setInt(3, adressBook.getId());
 				// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
 				int result = stmt.executeUpdate();
 				if (result != 1) {
