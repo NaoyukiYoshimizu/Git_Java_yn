@@ -1,0 +1,21 @@
+@charset "UTF-8";
+/* 文字コードの指定 */
+
+table,
+th,
+td {
+    border: 1px #000 solid;
+    padding: 5px 8px;
+    /* 1pxは線の太さ ＃000は黒色 solidは一重線 */
+}
+
+table {
+    width: 80%;
+    padding: 5px 8px;
+}
+
+th {
+    background-color: silver;
+}
+
+

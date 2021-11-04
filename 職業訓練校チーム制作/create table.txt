@@ -1,0 +1,171 @@
+-- データベース Attendance用
+
+-- データベースを作成する
+create database attendance;
+
+-- データベースを表示する
+show databases;
+
+-- 使用するデータベースを選択する
+use attendance;
+
+-- -----------------------------------------------
+
+-- テーブル(時間区分ID)を作成する
+create table time(
+ time_id    int        primary key,
+ time_class varchar(4)
+);
+
+-- テーブルのフィールド(列)構成を確認する
+show columns from time;
+insert into time
+values
+(0,'その他');
+
+insert into time
+values
+(1,'出勤');
+
+insert into time
+values
+(2,'退勤');
+
+-- すべての列を取得する
+select * from time;
+
+-- -------------------------------------------
+-- テーブル(アカウント)を作成する
+create table user(
+ id        int         primary key,
+ name      varchar(20),
+ pass      int,
+ authority int
+);
+
+-- テーブルのフィールド(列)構成を確認する
+show columns from user;
+
+-- レコード(データ)を追加する
+insert into user
+(id, name, pass, authority)
+values
+(000001,'阿部',1234,2);
+
+insert into user
+(id,name, pass, authority)
+values
+(000002,'芦田',1234,2);
+
+insert into user
+(id,name, pass, authority)
+values
+(000003,'伊調',1234,1);
+-- authority=1が一般ユーザー
+
+-- すべての列を取得する
+select * from user;
+
+
+
+-- --------------------------------------------
+
+
+-- テーブル(勤怠表)を作成する
+create table work(
+ kanri_id      bigint       primary key auto_increment,
+ id            int          not null,
+ work_day      date         not null,
+ stamping_time char(5),
+ time_id       int          not null,
+ note          varchar(100) default '',
+ foreign key (id) references user (id),
+ foreign key (time_id) references time (time_id)
+);
+
+-- テーブルのフィールド(列)構成を確認する
+show columns from work;
+
+-- レコード(データ)を追加する
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-01','09:00', 1);
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-01','18:00', 2);
+
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000002,'2021-11-01','09:00', 1);
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000002,'2021-11-01','18:00', 2);
+
+insert into work
+(id, work_day, stamping_time, time_id,note)
+values
+(000001,'2021-10-02','', 0,'休');
+insert into work
+(id, work_day, stamping_time, time_id,note)
+values
+(000001,'2021-10-03','', 0,'休');
+
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-04','09:00', 1);
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-04','18:00', 2);
+
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-05','08:00', 1);
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-06','18:00', 2);
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-07','09:00', 1);
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-10-07','18:00', 2);
+
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-08-08','9:00', 1);
+
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-08-08','18:00', 2);
+
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-09-08','9:00', 1);
+
+insert into work
+(id, work_day, stamping_time, time_id)
+values
+(000001,'2021-09-08','18:00', 2);
+
+
+-- すべての列を取得する
+select * from user;
+select * from time;
+select * from work;
+
+
+
+

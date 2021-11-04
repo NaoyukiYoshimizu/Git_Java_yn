@@ -1,0 +1,8 @@
+-- 使用するデータベースを選択する
+use attendance;
+-- すべてのテーブルを削除する
+drop table user,time,work;
+
+-- データベースを削除する
+drop database attendance;
+

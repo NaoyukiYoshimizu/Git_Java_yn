@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+	<meta charset="UTF-8">
+	<title>All  White  勤怠管理システム</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="icon" href="favicon.ico">
+  </head>
+  
+  <body>
+  <div class="container">
+	<div class="header"> <!--ヘッダー設定-->
+  	
+      
+  	<div class="header-left"> 	
+  	<a href="/Attendance/Main" style="text-decoration:none;color:#073985;" >All White</a> <!-- 1028new -->
+   	</div>
+  	
+  
+  	<div class="header-right">
+  	
+  	<div class="att_p">勤怠管理システム</div>
+  	</div>
+  	<div class="clear"></div>
+  	</div>
+  </div>
+  
+	<div class="top-visual"><!--イメージ写真設定-->
+	<h2>思いやりの職場</h2>
+	<h1>人材と社会のイノベーション</h1>
+	</div>
+	
+	<div class="input_na_pa"> <!--ボタン設置-->
+		<form action="/Attendance/Login" method="post"> <!--パス確認-->
+		 	<p>社員ID:</p><input type="text" name="user_id" style="width: 150px; height: 20px;"><br>
+			<p>Password:</p><input type="password" name="pass" style="width: 150px; height: 20px;"><br><br>
+			<!-- ログインsubmi -->	
+			<input type="submit" name="done" value="ログイン" class="basic-button">
+ 		</form>
+	</div>
+
+	 <footer>
+      Copyright &copy; 2021 All White inc.
+    </footer>
+  </body>
+</html>
