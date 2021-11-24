@@ -42,6 +42,8 @@ second commitからログイン機能が実装されましたので、
 MySQLにて、以下のコマンドを実行後、WEB-sqlを実行してください。
 -- データベース作成
 create database test_db;
+-- データベース使用
+use test_db;
 -- テーブル作成
 create table AddressBook(
 id      int 		primary key auto_increment,
@@ -164,6 +166,15 @@ six commit
  空白判定の修正
  cssファイルにより、一部css適用した
 
+
+Junit commit
+ daoとservretパッケージに対し、Junit5で
+ テストケースを作成した。
+ AddressDAO.java       カバレッジ率77.2%
+  ※Eclipseでは例外がカバーされないため。
+ login.java            カバレッジ率100%
+ AddressBookIndex.java カバレッジ率100%
+ AddressBookEdit.java  カバレッジ率100%
 
 
 ■実行環境
