@@ -49,4 +49,35 @@ public class SyouhinnDAO {
 		}
 		return syouhinnList;
 	}
+	// カートに入れる
+	public  List<Syouhinn>  findByIncart(Syouhinn syouhinn) {
+		List<Syouhinn> incartList = new ArrayList<>();
+		// SQL文の作成
+		String sql = "";
+		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+			
+			sql = "SELECT * FROM SYOUHINN WHERE USER_ID = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setLong(1, syouhinn.getUser_id());
+			ResultSet rs = ps.executeQuery();
+			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+			while (rs.next()) {
+				this.kanri_id = rs.getLong("kanri_id");
+				this.goods = rs.getString("goods");
+				this.goods_detail = rs.getString("goods_detail");
+				this.selling_price = rs.getInt("selling_price");
+				this.cost_price = rs.getInt("cost_price");
+				this.stock = rs.getInt("stock");
+				this.user_id = rs.getLong("user_id");
+				syouhinn = new Syouhinn(user_id,goods,goods_detail,selling_price,cost_price,stock,user_id);
+				incartList.add(syouhinn);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return incartList;
+	}
 }

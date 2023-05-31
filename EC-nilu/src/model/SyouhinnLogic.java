@@ -11,10 +11,9 @@ public class SyouhinnLogic {
 		List<Syouhinn> syouhinnList = dao.findByAll();
 		return syouhinnList;
 	}
-	/*public boolean execute(Syouhinn syouhinn) {
+	public List<Syouhinn> incart(Syouhinn syouhinn) {
 		SyouhinnDAO dao = new SyouhinnDAO();
-		Syouhinn syouhinn = dao.findBySypuhin(syouhinn);
-		return syouhinn != null;
-
-	}*/
+		List<Syouhinn> incartList = dao.findByIncart(syouhinn);
+		return incartList;
+	}
 }

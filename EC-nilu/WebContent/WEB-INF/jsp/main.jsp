@@ -35,19 +35,19 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	
 	<table>
 		<tr>
-		 <td></tb><th>商品名</th><th>価格</th><th>詳しく</th>
+		 <td></td><th>商品名</th><th>価格</th><th>詳しく</th>
 		</tr>	
 			<%
 			for (Syouhinn syouhinn : syouhinnList) {
 			%>
 			<tr><td><p> </p></td>
 			<td><p><%=syouhinn.getGoods()%></p></td>
-			<td><p><%=syouhinn.getSelling_price()%>円</p></td>
-			<td><p><input type="submit" name="done" value="詳細"></p></td></tr>
+			<td><span><%=syouhinn.getSelling_price()%>円</span></td>
+			<td><p><input type="submit" name="done" value="詳細"></p></td>
+			<input type="hidden" name="detail" value="<%=syouhinn.getKanri_id()%>"></tr>
 			<%
 			}
 			%>
-
 	</table>
 
   </body>

@@ -31,8 +31,6 @@ public class Main extends HttpServlet {
 			// リダイレクト
 			response.sendRedirect("/EC-nilu/");
 		} else { // ログイン済み
-			
-			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -44,7 +42,9 @@ public class Main extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String done = request.getParameter("done");
 		String errorMsg = "";
-
+		//インスタンス化
+		Syouhinn syouhinn = new Syouhinn();
+		SyouhinnLogic syouhinnLogic = new SyouhinnLogic();
 
 		// フォワード先を決定する変数urlを定義
 		String forwardPath = "/WEB-INF/jsp/main.jsp";
@@ -54,18 +54,17 @@ public class Main extends HttpServlet {
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		long user_id = (loginUser.getId());
-		Syouhinn syouhinn = new Syouhinn();
 
 		// リクエストパラメータチェック
 		if (done.equals("マイページ")) {
 			// SyouhinnList作成
 			
-			// エラーメッセージをリクエストスコープに保存
-			request.setAttribute("errorMsg", errorMsg);
-		} else if (done.equals("詳細")) {
-			
-			SyouhinnLogic SyouhinnLogic = new SyouhinnLogic();
-			
+		} else if (done.equals("カート")) {
+			// カートリスト作成
+			syouhinn.setUser_id(user_id);
+			List<Syouhinn> incartList = syouhinnLogic.incart(syouhinn);
+			request.setAttribute("incartList", incartList);
+			forwardPath = "/WEB-INF/jsp/incart.jsp";
 		} else if (done.equals("ユーザー管理")) {
 			RegisterUserLogic registerUserLogic = new RegisterUserLogic();
 			List<User> userList = registerUserLogic.execute();
@@ -88,7 +87,6 @@ public class Main extends HttpServlet {
 		// エラーメッセージをリクエストスコープに保存
 		request.setAttribute("errorMsg", errorMsg);
 		// SyouhinnList作成
-		SyouhinnLogic syouhinnLogic = new SyouhinnLogic();
 		List<Syouhinn> syouhinnList = syouhinnLogic.execute();
 		request.setAttribute("syouhinnList", syouhinnList);
 		// フォワード
