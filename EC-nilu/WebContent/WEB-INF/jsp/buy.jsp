@@ -6,6 +6,7 @@
 // セッションスコープに保存されたユーザー情報を取得
 User loginUser = (User) session.getAttribute("loginUser");
 //リクエストスコープに保存されたリストを取得
+User user = (User) request.getAttribute("userinfo");
 List<Syouhinn> incartList = (List<Syouhinn>) request.getAttribute("incartList");
 //リクエストスコープに保存されたエラーメッセージを取得
 String errorMsg = (String) request.getAttribute("errorMsg");
@@ -27,7 +28,7 @@ ld = ld.plusDays(2);
   <div class="container">
     <jsp:include page="/header.jsp"/>
 <!-- 商品一覧-->
-	<h1>注文内容</h1>
+	<h1>　注文内容</h1>
 	<%
 	if (errorMsg.length() != 0) {
 	%>
@@ -50,14 +51,14 @@ ld = ld.plusDays(2);
 		p_total += incart.getSelling_price();
 	}
 	%>
-	お届け先<br>
+	お届け先<%=user.getAddres()%><br>
 	お届け日時<input type="date" name="d-date" value="<%=ld%>" min="<%=ld%>">
 	<br><hr>
 	<br>
 	商品合計　　　<p><%=p_total%>円</p><br>
 	送料　　　　　<p>    350円</p><br>
 	<br>
-	総合計　　　　<h2><%=p_total+350%>円</h2>
+	総合計　　　　<h2><%=p_total+350%></h2>円
 	<br>
 	<input type="submit" name="done" value="注文を確定" class="btn-submit3">
 	</form>
@@ -88,6 +89,8 @@ ld = ld.plusDays(2);
 			}
 			%>
 	</table>
+	<br>
   </div>
+  <jsp:include page="/footer.jsp"/>
   </body>
 </html>

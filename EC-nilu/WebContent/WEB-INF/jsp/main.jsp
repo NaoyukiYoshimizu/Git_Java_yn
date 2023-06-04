@@ -32,7 +32,7 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	<%
 	}
 	%>			
-	
+	<form action="/EC-nilu/Main" method="post" >
 	<table>
 		<tr>
 		 <td></td><th>商品名</th><th>価格</th><th>詳しく</th>
@@ -40,15 +40,17 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 			<%
 			for (Syouhinn syouhinn : syouhinnList) {
 			%>
-			<tr><td><p> </p></td>
+			
+			<tr><td><p> <%=syouhinn.getKanri_id()%></p></td>
 			<td><p><%=syouhinn.getGoods()%></p></td>
 			<td><span><%=syouhinn.getSelling_price()%>円</span></td>
-			<td><p><input type="submit" name="done" value="詳細"></p></td>
-			<input type="hidden" name="detail" value="<%=syouhinn.getKanri_id()%>"></tr>
+			<td><p><input type="checkbox" name="detail" value="<%=syouhinn.getKanri_id()%>">  <input type="submit" name="done" value="詳細"></p></td>
+			</tr>
 			<%
 			}
 			%>
 	</table>
-
+	</form>
+ <jsp:include page="/footer.jsp"/>
   </body>
 </html>

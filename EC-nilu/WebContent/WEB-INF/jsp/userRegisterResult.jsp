@@ -68,6 +68,6 @@ User user = (User) request.getAttribute("newuser");
 	<%
 	}
 	%>
-	
+ <jsp:include page="/footer.jsp"/>
 </body>
 </html>

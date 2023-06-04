@@ -48,6 +48,6 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 		}
 	%>
 	  </div>
-	
+ <jsp:include page="/footer.jsp"/>
 </body>
 </html>

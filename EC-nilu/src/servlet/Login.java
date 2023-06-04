@@ -71,6 +71,7 @@ public class Login  extends HttpServlet {
 				//商品一覧作成
 				SyouhinnLogic syouhinnLogic = new SyouhinnLogic();
 				List<Syouhinn> syouhinnList = syouhinnLogic.execute();
+				System.out.println(syouhinnList.get(2).getKanri_id());
 				request.setAttribute("syouhinnList", syouhinnList);
 				forwardPath = "/WEB-INF/jsp/main.jsp";
 

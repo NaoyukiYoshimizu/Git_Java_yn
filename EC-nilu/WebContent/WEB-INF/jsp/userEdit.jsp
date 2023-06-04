@@ -92,6 +92,6 @@ User user = (User) request.getAttribute("edituser");
 	<br>
 	<br>
 
-
+  <jsp:include page="/footer.jsp"/>
 </body>
 </html>

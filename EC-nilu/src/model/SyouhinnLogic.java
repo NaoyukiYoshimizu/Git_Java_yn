@@ -16,4 +16,24 @@ public class SyouhinnLogic {
 		List<Syouhinn> incartList = dao.findByIncart(syouhinn);
 		return incartList;
 	}
+	public void detail(Syouhinn syouhinn) {
+		SyouhinnDAO dao = new SyouhinnDAO();
+		dao.detail(syouhinn);
+	}
+	public boolean create(Syouhinn syouhinn) {
+		SyouhinnDAO dao = new SyouhinnDAO();
+		if (dao.create(syouhinn)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean delete(Syouhinn syouhinn) {
+		SyouhinnDAO dao = new SyouhinnDAO();
+		if (dao.delete(syouhinn)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

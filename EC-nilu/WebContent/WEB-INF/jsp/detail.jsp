@@ -5,7 +5,7 @@
 // セッションスコープに保存されたユーザー情報を取得
 User loginUser = (User) session.getAttribute("loginUser");
 //リクエストスコープに保存されたリストを取得
-List<Syouhinn> incartList = (List<Syouhinn>) request.getAttribute("incartList");
+Syouhinn syouhinn = (Syouhinn) request.getAttribute("syouhinn");
 //リクエストスコープに保存されたエラーメッセージを取得
 String errorMsg = (String) request.getAttribute("errorMsg");
 
@@ -34,45 +34,25 @@ int p_total=0;
 	<%
 	}
 	%>
-	<%
-	if (incartList.size() ==0) {
-	%>
-	<br>
-	<h2>カートは空です</h2>
-	<%
-	}else{
-	%>			
-	<form action="/EC-nilu/Incart" method="post" >
+	
+	<form action="/EC-nilu/Item_detail" method="post" >
+	<input type="hidden" name="kanri" value="<%=syouhinn.getKanri_id()%>">
 	<table>
 		<tr>
 		 <td></td><th>商品名</th><th>価格</th><td></td>
 		</tr>	
-			<%
-			for (Syouhinn incart : incartList) {
-			%>
 			<tr><td><p></p></td>
-			<td><p><%=incart.getGoods()%></p></td>
-			<td><h2><%=incart.getSelling_price()%></h2>円</td>
-			<td><p class="buttons"><input type="submit" name="done" class="submit" id="ch_flag" value="削除" class="checkbtn"> </p> 
-			<input type="checkbox" name="delgoods" id = "ch_flag" value="<%=incart.getKanri_id()%>"></td>
+			<td><p><%=syouhinn.getGoods()%></p></td>
+			<td><h2><%=syouhinn.getSelling_price()%></h2>円</td>			
 			</tr>
-
-			<%
-			p_total += incart.getSelling_price();
-			}
-			%>
 	</table>
+	<p><%=syouhinn.getGoods_detail()%></p>
 	<br>
-	<h2>合計  <%=p_total%>  円</h2>
 	<br>
-	<input type="submit" name="done" value="購入手続き" class="btn-submit3">
+	<input type="submit" name="done" value="カートに入れる" class="btn-submit3">
 	</form>
-	<%
-	}
-	%>
-  </div>
 
+  </div>
     <jsp:include page="/footer.jsp"/>
-    <script src="js/ch_flag.js">  </script>
   </body>
 </html>

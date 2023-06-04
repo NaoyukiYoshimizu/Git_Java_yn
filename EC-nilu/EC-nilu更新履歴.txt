@@ -8,3 +8,6 @@ ten-one commit
 incart.jspーの「購入手続き」からIncart.java→SyouhinnLogicnのincartメソッドにより
 対象ユーザーのお届け日時、合計額、お支払方法を表示。
 
+ten-two commit
+main,jspからチェック有詳細に飛べるように(detail.jsp)
+incart.jspのチェック有商品削除機能実装

@@ -16,12 +16,12 @@
 	<div class="header"> <!--ヘッダー設定-->
       
   	<div class="header-left"> 	
-<a href="/EC-nilu/Main" style="text-decoration:none;color:#073985;" >All White</a> <!-- 1028new -->
+<a href="/EC-nilu/Main" style="text-decoration:none;color:#073985;" >EC-nilu</a> 
    	</div>
   	
   
   	<div class="header-right">
-  	<div class="att_p">EC-nilu</div>
+  	<div class="att_p">HOME</div>
   	</div>
   	<div class="clear"></div>
   	</div>
@@ -31,6 +31,6 @@
 	<div class="logout1">
 	<h1>ログアウトしました</h1>
 	</div>	
-	
+
   </body>
 </html>

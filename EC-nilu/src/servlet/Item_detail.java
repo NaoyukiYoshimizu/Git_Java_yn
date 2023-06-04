@@ -43,6 +43,7 @@ public class Item_detail extends HttpServlet {
 				// リクエストパラメータを取得
 				request.setCharacterEncoding("UTF-8");
 				String done = request.getParameter("done");
+				String kanri = request.getParameter("kanri");
 				String errorMsg = "";
 				//インスタンス化
 				Syouhinn syouhinn = new Syouhinn();
@@ -54,13 +55,21 @@ public class Item_detail extends HttpServlet {
 				// セッションスコープからユーザー情報を取得
 				HttpSession session = request.getSession();
 				User loginUser = (User) session.getAttribute("loginUser");
-
+				
 				long user_id = (loginUser.getId());
-
+				long kanri_id = 0;
+				kanri_id = Long.parseLong(kanri);
 				// リクエストパラメータチェック
-				if (done.equals("")) {
-					// SyouhinnList作成
-					
+				if (done.equals("カートに入れる")) {
+					// カート作成
+					syouhinn.setUser_id(user_id);
+					syouhinn.setKanri_id(kanri_id);
+					syouhinnLogic.create(syouhinn);
+					try {
+						Thread.sleep(2000); // 2秒止める
+					} catch (InterruptedException e) {
+					}
+					forwardPath = "/WEB-INF/jsp/incart.jsp";
 				} 
 				// エラーメッセージをリクエストスコープに保存
 				request.setAttribute("errorMsg", errorMsg);

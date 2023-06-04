@@ -32,8 +32,6 @@ public class UserDAO {
 				user.setId(rs.getLong("id"));
 				user.setName(rs.getString("name"));
 				user.setPass(rs.getString("pass"));
-				user.setMail(rs.getString("mail"));
-				user.setAddres(rs.getString("address"));
 				user.setAuthority(rs.getInt("authority"));
 			} else {
 				// アカウントがなければnullを返す
