@@ -28,9 +28,21 @@ public class SyouhinnLogic {
 			return false;
 		}
 	}
+	public void findbydata(Syouhinn syouhinn) {
+		SyouhinnDAO dao = new SyouhinnDAO();
+		dao.findBydata(syouhinn);
+	}
 	public boolean delete(Syouhinn syouhinn) {
 		SyouhinnDAO dao = new SyouhinnDAO();
 		if (dao.delete(syouhinn)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean update(Syouhinn syouhinn) {
+		SyouhinnDAO dao = new SyouhinnDAO();
+		if (dao.update(syouhinn)) {
 			return true;
 		} else {
 			return false;

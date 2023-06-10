@@ -8,6 +8,7 @@ public class User implements Serializable{
 	private String pass; // パスワード
 	private String mail;
 	private String addres;
+	private String credit;
 	private int authority; // 権限レベル
 	private String choose; // 更新項目
 	private String after; // 更新データ
@@ -92,6 +93,14 @@ public class User implements Serializable{
 
 	public void setAfter(String after) {
 		this.after = after;
+	}
+
+	public String getCredit() {
+		return credit;
+	}
+
+	public void setCredit(String credit) {
+		this.credit = credit;
 	}
 	
 }

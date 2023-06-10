@@ -6,11 +6,33 @@ public class Syouhinn implements Serializable{
 		private long user_id,kanri_id;
 		private String goods,goods_detail;
 		private int selling_price,cost_price,stock;
+		private String nsin;
+		
 		public Syouhinn() {
 		}
 		public Syouhinn(long kanri_id, String goods, String goods_detail, int selling_price,
 				int cost_price, int stock,long user_id) {
 			this.user_id = user_id;
+			this.kanri_id = kanri_id;
+			this.goods = goods;
+			this.goods_detail = goods_detail;
+			this.selling_price = selling_price;
+			this.cost_price = cost_price;
+			this.stock = stock;
+		}
+		public Syouhinn(long kanri_id, String goods, String goods_detail, int selling_price,
+				int cost_price, int stock,long user_id,String nsin) {
+			this.user_id = user_id;
+			this.kanri_id = kanri_id;
+			this.goods = goods;
+			this.goods_detail = goods_detail;
+			this.selling_price = selling_price;
+			this.cost_price = cost_price;
+			this.stock = stock;
+			this.nsin = nsin;
+		}
+		public Syouhinn(long kanri_id, String goods, String goods_detail, int selling_price, int cost_price,
+				int stock) {
 			this.kanri_id = kanri_id;
 			this.goods = goods;
 			this.goods_detail = goods_detail;
@@ -48,10 +70,10 @@ public class Syouhinn implements Serializable{
 		public void setSelling_price(int selling_price) {
 			this.selling_price = selling_price;
 		}
-		public int getPost_price() {
+		public int getCost_price() {
 			return cost_price;
 		}
-		public void setPost_price(int cost_price) {
+		public void setCost_price(int cost_price) {
 			this.cost_price = cost_price;
 		}
 		public int getStock() {
@@ -60,5 +82,10 @@ public class Syouhinn implements Serializable{
 		public void setStock(int stock) {
 			this.stock = stock;
 		}
-				
+		public String getNsin() {
+			return nsin;
+		}
+		public void setNsin(String nsin) {
+			this.nsin = nsin;
+		}		
 }

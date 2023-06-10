@@ -18,7 +18,7 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	<div class="header"> <!--ヘッダー設定-->
   
  <div class="header-left"> 	
-<a href="/EC-nilu/Main" style="text-decoration:none;color:#073985;" >All White</a> <!-- 1028new -->
+<a href="/EC-nilu/Main" style="text-decoration:none;color:#073985;" >EC-nilu</a> <!-- 1028new -->
    	</div>
   	
   
@@ -48,6 +48,5 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 		}
 	%>
 	  </div>
- <jsp:include page="/footer.jsp"/>
 </body>
 </html>

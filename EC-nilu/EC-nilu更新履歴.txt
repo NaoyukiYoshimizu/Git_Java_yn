@@ -6,8 +6,16 @@ ten-one commit
 ヘッダーの「カート」からMain.java→SyouhinnLogicnのincartメソッドにより
 対象ユーザーの購入予定一覧表示(incart.jsp)。
 incart.jspーの「購入手続き」からIncart.java→SyouhinnLogicnのincartメソッドにより
-対象ユーザーのお届け日時、合計額、お支払方法を表示。
+対象ユーザーのお届け日時、合計額、お支払方法を表示。(buy.jsp)
 
 ten-two commit
-main,jspからチェック有詳細に飛べるように(detail.jsp)
-incart.jspのチェック有商品削除機能実装
+main,jspからチェック有詳細に飛べるように。(detail.jsp)
+incart.jspのチェック有商品削除機能実装。
+footerとログアウトの実装。
+jsでチェックある時だけボタン押せるようにする予定。
+
+ten-3 commit
+データベースにNSIN（固定長の商品管理ID)により
+ユーザーが購入済み商品とお届け日時をDB記録。
+ユーザーが購入したらお届け日時を表示在庫を減らす。(buyResult.jsp)
+ひとまず、radioが空白で詳細や削除押したらエラー表示。

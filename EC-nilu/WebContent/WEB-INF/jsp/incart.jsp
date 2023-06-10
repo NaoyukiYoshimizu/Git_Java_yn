@@ -53,8 +53,8 @@ int p_total=0;
 			<tr><td><p></p></td>
 			<td><p><%=incart.getGoods()%></p></td>
 			<td><h2><%=incart.getSelling_price()%></h2>円</td>
-			<td><p class="buttons"><input type="submit" name="done" class="submit" id="ch_flag" value="削除" class="checkbtn"> </p> 
-			<input type="checkbox" name="delgoods" id = "ch_flag" value="<%=incart.getKanri_id()%>"></td>
+			<td><input type="radio" name="delgoods" value="<%=incart.getKanri_id()%>">
+			<p class="buttons"><input type="submit" name="done" class="submit" id="submit" value="削除" ></p></td>
 			</tr>
 
 			<%
@@ -73,6 +73,6 @@ int p_total=0;
   </div>
 
     <jsp:include page="/footer.jsp"/>
-    <script src="js/ch_flag.js">  </script>
+
   </body>
 </html>

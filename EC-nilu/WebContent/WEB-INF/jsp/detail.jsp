@@ -49,9 +49,10 @@ int p_total=0;
 	<p><%=syouhinn.getGoods_detail()%></p>
 	<br>
 	<br>
-	<input type="submit" name="done" value="カートに入れる" class="btn-submit3">
+	<input type="submit" name="done" value="カートに入れる" class="basic-button2">
 	</form>
-
+	<br>
+	<br>
   </div>
     <jsp:include page="/footer.jsp"/>
   </body>

@@ -12,6 +12,8 @@ List<Syouhinn> incartList = (List<Syouhinn>) request.getAttribute("incartList");
 String errorMsg = (String) request.getAttribute("errorMsg");
 
 int p_total=0;
+long cnt=0;
+String item = "";
 LocalDate ld = LocalDate.now();
 ld = ld.plusDays(2);
 %>
@@ -51,17 +53,16 @@ ld = ld.plusDays(2);
 		p_total += incart.getSelling_price();
 	}
 	%>
-	お届け先<%=user.getAddres()%><br>
-	お届け日時<input type="date" name="d-date" value="<%=ld%>" min="<%=ld%>">
+	お届け先: <%=user.getAddres()%><br>
+	お届け日時: <input type="date" name="d-date" value="<%=ld%>" min="<%=ld%>">
 	<br><hr>
 	<br>
-	商品合計　　　<p><%=p_total%>円</p><br>
-	送料　　　　　<p>    350円</p><br>
+	<p>商品合計　　　<%=p_total%>円</p><br>
+	<p>送料　　　　　    350円</p><br>
 	<br>
 	総合計　　　　<h2><%=p_total+350%></h2>円
 	<br>
 	<input type="submit" name="done" value="注文を確定" class="btn-submit3">
-	</form>
 	<br>
 	<br>
 	<hr>
@@ -70,6 +71,7 @@ ld = ld.plusDays(2);
 			<option value="dai" selected>代引き</option>
 			<option value="dai">コンビニ支払い</option>
 		</select>
+
 	<br>
 	<br>
 	<br>
@@ -85,11 +87,16 @@ ld = ld.plusDays(2);
 			<td><p><%=incart.getGoods()%></p></td>
 			<td><p><%=incart.getSelling_price()%>円</p></td>
 			<%
-			p_total += incart.getSelling_price();
+			item += incart.getNsin();
+			cnt++;
 			}
 			%>
 	</table>
+	<input type="hidden" name="item" value="<%=item%>">
+	<input type="hidden" name="cnt" value="<%=cnt%>">
+	<hr>
 	<br>
+	</form>
   </div>
   <jsp:include page="/footer.jsp"/>
   </body>

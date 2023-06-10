@@ -17,9 +17,9 @@ public class SyouhinnDAO {
 	long user_id,kanri_id;
 	String goods,goods_detail;
 	int selling_price,cost_price,stock;
+	String nsin;
 	
-
-	// ユーザー全件取得
+	// 全件取得
 	public List<Syouhinn> findByAll() {
 		List<Syouhinn> syouhinnList = new ArrayList<>();
 		// SQL文の作成
@@ -49,7 +49,7 @@ public class SyouhinnDAO {
 		}
 		return syouhinnList;
 	}
-	// カートに入れる
+	// カートを見る
 	public  List<Syouhinn>  findByIncart(Syouhinn syouhinn) {
 		List<Syouhinn> incartList = new ArrayList<>();
 		// SQL文の作成
@@ -69,7 +69,9 @@ public class SyouhinnDAO {
 				this.cost_price = rs.getInt("cost_price");
 				this.stock = rs.getInt("stock");
 				this.user_id = rs.getLong("user_id");
-				syouhinn = new Syouhinn(kanri_id,goods,goods_detail,selling_price,cost_price,stock,user_id);
+				this.nsin = rs.getString("nsin");
+				
+				syouhinn = new Syouhinn(kanri_id,goods,goods_detail,selling_price,cost_price,stock,user_id,nsin);
 				incartList.add(syouhinn);
 			}
 
@@ -81,32 +83,52 @@ public class SyouhinnDAO {
 		return incartList;
 	}
 	// 詳細
-		public void detail(Syouhinn syouhinn) {
-			// SQL文の作成
-			String sql = "";
-			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
-				
-				sql = "SELECT * FROM SYOUHINN WHERE KANRI_ID = ?";
-				PreparedStatement ps = con.prepareStatement(sql);
-				ps.setLong(1, syouhinn.getKanri_id());
-				ResultSet rs = ps.executeQuery();
-				// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
-				while (rs.next()) {
-					this.kanri_id = rs.getLong("kanri_id");
-					this.goods = rs.getString("goods");
-					this.goods_detail = rs.getString("goods_detail");
-					this.selling_price = rs.getInt("selling_price");
-					this.cost_price = rs.getInt("cost_price");
-					this.stock = rs.getInt("stock");
-					this.user_id = rs.getLong("user_id");
-				}
+	public void detail(Syouhinn syouhinn) {
+		// SQL文の作成
+		String sql = "";
+		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 
-			} catch (SQLException e) {
-				System.out.println("データベースへのアクセスでエラーが発生しました。");
-				System.out.println(e);
-				e.printStackTrace();
+			sql = "SELECT * FROM SYOUHINN WHERE KANRI_ID = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setLong(1, syouhinn.getKanri_id());
+			ResultSet rs = ps.executeQuery();
+			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+			while (rs.next()) {
+				syouhinn.setKanri_id(rs.getLong("kanri_id"));
+				syouhinn.setGoods(rs.getString("goods"));
+				syouhinn.setGoods_detail(rs.getString("goods_detail"));
+				syouhinn.setSelling_price(rs.getInt("selling_price"));
+				syouhinn.setCost_price(rs.getInt("cost_price"));
+				syouhinn.setStock(rs.getInt("stock"));
 			}
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e);
+			e.printStackTrace();
 		}
+	}
+	// 配達用
+	public void findBydata(Syouhinn syouhinn) {
+		// SQL文の作成
+		String sql = "";
+		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+
+			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, syouhinn.getNsin());
+			ResultSet rs = ps.executeQuery();
+			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+			while (rs.next()) {
+				this.nsin = rs.getString("nsin");
+			}
+			syouhinn.setNsin(this.nsin);
+
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e);
+			e.printStackTrace();
+		}
+	}
 	//削除
 	public boolean delete(Syouhinn syouhinn) {
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
@@ -136,27 +158,30 @@ public class SyouhinnDAO {
 			String sql = "SELECT * FROM SYOUHINN WHERE KANRI_ID = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setLong(1, syouhinn.getKanri_id());
+			this.user_id = syouhinn.getUser_id();
 			ResultSet rs = ps.executeQuery();
 			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
 			while (rs.next()) {
-				this.kanri_id = rs.getLong("kanri_id");
 				this.goods = rs.getString("goods");
-				this.goods_detail = rs.getString("");
+				this.goods_detail = "";
 				this.selling_price = rs.getInt("selling_price");
 				this.cost_price = rs.getInt("cost_price");
-				this.stock = rs.getInt("stock");
-				this.user_id = rs.getLong("user_id");
+				this.stock = 1;
+				this.nsin = rs.getString("nsin");
 			}
 			
 			// INSERT文の準備
-			sql = "INSERT INTO SYOUHINN (goods,selling_price,cost_price,stock,goods_detail,user_id) VALUES (?,?,?,?)";
+			sql = "INSERT INTO SYOUHINN (goods,selling_price,cost_price,stock,goods_detail,user_id,nsin) VALUES (?,?,?,?,?,?,?)";
 			ps = con.prepareStatement(sql);
-			/*
-			ps.setLong(1, user.getId());
-			ps.setString(2, user.getName());
-			ps.setString(3, user.getPass());
-			ps.setInt(4, user.getAuthority());
-	*/
+			
+			ps.setString(1, this.goods);
+			ps.setInt(2, this.selling_price);
+			ps.setInt(3, this.cost_price);
+			ps.setInt(4, this.stock);
+			ps.setString(5, this.goods_detail);
+			ps.setLong(6, this.user_id);
+			ps.setString(7, this.nsin);
+			
 			int result = ps.executeUpdate();
 			if (result != 1) {
 				return false;
@@ -167,5 +192,39 @@ public class SyouhinnDAO {
 			return false;
 		}
 		return true;
+	}
+	//購入されたときの更新
+	public boolean update(Syouhinn syouhinn) {
+		// SQL文の作成
+		String sql = "";
+		// データベースへ接続
+		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+			// データベースから在庫数を呼び出す
+			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ? ORDER BY NSIN LIMIT 1";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, syouhinn.getNsin());
+			ResultSet rs = ps.executeQuery();
+			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+			while (rs.next()) {
+				this.stock = rs.getInt("stock");
+				this.kanri_id = rs.getLong("kanri_id");
+			}
+			// UPDATE文の準備
+			sql = "UPDATE SYOUHINN SET STOCK=? WHERE KANRI_ID=?";
+			ps = con.prepareStatement(sql);
+			// UPDATE文中の「?」に使用する値を設定しSQLを完成
+			ps.setInt(1, this.stock-1);
+			ps.setLong(2, this.kanri_id);
+			// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
+			int result = ps.executeUpdate();
+			if (result != 1) {
+				return false;
+			}
+			return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

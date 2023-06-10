@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,13 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.RegisterUserLogic;
+import model.Delivery;
+import model.DeliveryLogic;
 import model.Syouhinn;
 import model.SyouhinnLogic;
 import model.User;
 
-@WebServlet("/Incart")
-public class Incart extends HttpServlet {
+@WebServlet("/IncartResult")
+public class IncartResult  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,67 +42,63 @@ public class Incart extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String done = request.getParameter("done");
 		String errorMsg = null;
-		String delgoods = request.getParameter("delgoods");
+		String d_date = request.getParameter("d-date");
+		String pay = request.getParameter("pay");
+		String item = request.getParameter("item");
+		String cnt = request.getParameter("cnt");
+		System.out.println(item);
 		//インスタンス化
+		Delivery delivery = new Delivery();
+		DeliveryLogic deliveryLogic = new DeliveryLogic();
 		Syouhinn syouhinn = new Syouhinn();
 		SyouhinnLogic syouhinnLogic = new SyouhinnLogic();
-		RegisterUserLogic registerUserLogic = new RegisterUserLogic();
 
 		// フォワード先を決定する変数urlを定義
-		String forwardPath = "/WEB-INF/jsp/incart.jsp";
+		String forwardPath = "/WEB-INF/jsp/buyResult.jsp";
 		// idセット
 		// セッションスコープからユーザー情報を取得
 		HttpSession session = request.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
 
 		long user_id = (loginUser.getId());
-		long kanri_id = 0;
-		try {
-			System.out.println("変換先"+delgoods);
-			kanri_id = Long.parseLong(delgoods);
-		}catch(NumberFormatException e) {
-
-			delgoods = "0";
-			System.out.println("文字列を数値型に変換した際に、数値以外の文字が含まれるなどして変換ができない");
-		}
-
+		long i=0;
+		int j=0,k=0;
+		boolean bool = false;
+		String str="";
 
 		// リクエストパラメータチェック
-		if (done.equals("削除")) {
-			if(delgoods==null) {
-				errorMsg += "削除対象をラジオボタンで選んでください";
-			}else {
-			// 削除
-			syouhinn.setKanri_id(kanri_id);
-			syouhinnLogic.delete(syouhinn);
-			try {
-				Thread.sleep(2000); // 2秒止める
-			} catch (InterruptedException e) {
+		if (done.equals("注文を確定")) {
+			while(i<Long.parseLong(cnt)) {
+					if(i%2==0) {
+						k=j+13;
+						str= item.substring(j, k);
+					}else {
+						j=k+13;
+						str= item.substring(k, j);
+					}
+					syouhinn.setNsin(str);
+					syouhinnLogic.findbydata(syouhinn);				
+					delivery = new Delivery(user_id,syouhinn.getNsin(),d_date,pay);
+					bool = deliveryLogic.create(delivery);
+					if(bool) {
+						syouhinnLogic.update(syouhinn);
+					}
+					i++;
+				try {
+					Thread.sleep(300); // 0.3秒止める
+					System.out.println("配達日"+delivery.getDelivery());
+					System.out.println("stock"+syouhinn.getStock());
+				} catch (InterruptedException e) {
+				}
 			}
-			// カートリスト作成
-			List<Syouhinn> incartList = syouhinnLogic.incart(syouhinn);
-			request.setAttribute("incartList", incartList);
-			errorMsg = "";
-			}
-		} else if (done.equals("購入手続き")) {
-			// 購入リスト作成
-			syouhinn.setUser_id(user_id);
-			List<Syouhinn> incartList = syouhinnLogic.incart(syouhinn);
-			loginUser.setId(user_id);
-			registerUserLogic.edit(loginUser);
-			request.setAttribute("userinfo", loginUser);
-			request.setAttribute("incartList", incartList);
-			forwardPath = "/WEB-INF/jsp/buy.jsp";
-			errorMsg = "";
-		} 
-		// エラーメッセージをリクエストスコープに保存
+		errorMsg = "";
+
+		// データをリクエストスコープに保存
 		request.setAttribute("errorMsg", errorMsg);
-		// SyouhinnList作成
-		List<Syouhinn> syouhinnList = syouhinnLogic.execute();
-		request.setAttribute("syouhinnList", syouhinnList);
+		request.setAttribute("delivery", delivery);
 		// フォワード
 		RequestDispatcher dis = request.getRequestDispatcher(forwardPath);
 		dis.forward(request, response);
-
+		}
 	}
 }

@@ -39,6 +39,7 @@ public class UserRegisterDAO {
 				user.setPass(rs.getString("pass"));
 				user.setMail(rs.getString("mail"));
 				user.setAddres(rs.getString("address"));
+				user.setCredit(rs.getString("credit"));
 				user.setAuthority(rs.getInt("authority"));
 			}
 

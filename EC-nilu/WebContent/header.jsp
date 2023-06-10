@@ -10,12 +10,12 @@ User loginUser = (User) session.getAttribute("loginUser");
 	<div class="header"> <!--ヘッダー設定-->
       
   	<div class="header-left"> 	
-<a href="/EC-nilu/Main" style="text-decoration:none;color:#073985;" >EC-nilu</a> <!-- 1028new -->
+<a href="/EC-nilu/Main" style="text-decoration:none;color:#073985;" >EC-nilu</a>
    	</div>
   	
   
   	<div class="header-right">
-  	<div class="att_p">HOME</div>
+  	<div class="att_p"><a href="/EC-nilu/Main" style="text-decoration:none;color:#fffafa;" >HOME</a></div>
   	</div>
   	<div class="clear"></div>
   	</div>

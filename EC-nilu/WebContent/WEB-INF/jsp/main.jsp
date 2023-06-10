@@ -43,8 +43,9 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 			
 			<tr><td><p> <%=syouhinn.getKanri_id()%></p></td>
 			<td><p><%=syouhinn.getGoods()%></p></td>
-			<td><span><%=syouhinn.getSelling_price()%>円</span></td>
-			<td><p><input type="checkbox" name="detail" value="<%=syouhinn.getKanri_id()%>">  <input type="submit" name="done" value="詳細"></p></td>
+			<td><h2><%=syouhinn.getSelling_price()%></h2>円</td>
+			<td><input type="radio" name="detail" value="<%=syouhinn.getKanri_id()%>">
+			<p><input type="submit" name="done" value="詳細"></p></td>
 			</tr>
 			<%
 			}
@@ -52,5 +53,6 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	</table>
 	</form>
  <jsp:include page="/footer.jsp"/>
+ <script src="js/ch_flag.js">  </script>
   </body>
 </html>

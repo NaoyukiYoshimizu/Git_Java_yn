@@ -26,11 +26,17 @@ public class Main extends HttpServlet {
 		// セッションスコープからユーザー情報を取得
 		HttpSession session = request.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
-
+		String errorMsg = "";
 		if (loginUser == null) { // ログインしていない
 			// リダイレクト
 			response.sendRedirect("/EC-nilu/");
 		} else { // ログイン済み
+			// SyouhinnList作成
+			SyouhinnLogic syouhinnLogic = new SyouhinnLogic();
+			List<Syouhinn> syouhinnList = syouhinnLogic.execute();
+			request.setAttribute("syouhinnList", syouhinnList);
+			//エラーを空白に
+			request.setAttribute("errorMsg", errorMsg);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -56,8 +62,7 @@ public class Main extends HttpServlet {
 
 		long user_id = (loginUser.getId());
 		long kanri_id = 0;
-		try {
-			System.out.print("detail"+detail);	
+		try {	
 			kanri_id = Long.parseLong(detail);
 		}catch(NumberFormatException e) {
 			detail = "0";
@@ -88,12 +93,21 @@ public class Main extends HttpServlet {
 			forwardPath = "/WEB-INF/jsp";
 			errorMsg = "";
 		}else if (done.equals("詳細")) {
+			if(detail == null) {
+				errorMsg += "ラジオボタンを入力してください";
+			}else {
 			syouhinn.setKanri_id(kanri_id);
 			syouhinnLogic.detail(syouhinn);
+			try {
+				Thread.sleep(1000); // 1秒止める
+				System.out.println(syouhinn.getGoods());
+			} catch (InterruptedException e) {
+			}
 			request.setAttribute("syouhinn", syouhinn);
 			// フォワード
 			forwardPath = "/WEB-INF/jsp/detail.jsp";
 			errorMsg = "";
+			}
 		}else if (done.equals("ログアウト")) {
 			RegisterUserLogic registerUserLogic = new RegisterUserLogic();
 			List<User> userList = registerUserLogic.execute();
