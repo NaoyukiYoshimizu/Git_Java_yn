@@ -1,0 +1,111 @@
+-- データベース EC-nilu用
+
+-- データベースを作成する
+create database shop;
+
+-- データベースを表示する
+show database;
+
+-- 使用するデータベースを選択する
+use shop;
+
+-- -------------------------------------------
+-- テーブル(アカウント)を作成する
+create table user(
+ id        bigint         primary key auto_increment,
+ name      varchar(20),
+ pass      varchar(10),
+ mail      varchar(99),
+ address   varchar(99),
+ credit    varchar(21),
+ authority int            default 1
+);
+
+-- authority=1が一般ユーザー
+-- テーブルのフィールド(列)構成を確認する
+show columns from user;
+
+-- レコード(データ)を追加する
+insert into user
+(name,pass,mail,address,authority)
+values
+('阿部 博司','1aB2Ab','abcd@gmail.com','大阪府堺市北区○○町',2);
+
+insert into user
+(name,pass,mail,address)
+values
+('芦田 真奈','1aB2Ab','efgh@icloud.com','大阪府大阪市中央区');
+
+insert into user
+(name,pass,mail,address)
+values
+('伊調 一郎','1aB2Ab','ijkl@ymail.ne.jp','大阪府茨木市');
+
+
+-- すべての列を取得する
+select * from user;
+
+
+
+-- --------------------------------------------
+
+
+-- テーブル(商品一覧)を作成する
+create table syouhinn(
+ kanri_id      bigint       primary key auto_increment,
+ goods         varchar(100) not null,
+ selling_price int,
+ cost_price    int,
+ stock         int          default 100,
+ goods_detail  varchar(1000),
+ user_id       bigint       default 1,
+ nsin          varchar(13) not null, 
+ foreign key (user_id) references user (id)
+);
+
+-- テーブルのフィールド(列)構成を確認する
+show columns from syouhinn;
+
+-- レコード(データ)を追加する
+insert into syouhinn
+(goods,selling_price,cost_price,stock,goods_detail,nsin)
+values
+('nilu [nilu story 1]',5000,2500,100,'-ストーリー-平和だったの世界に闇の王が現れ、
+世に平和をもたらしていた「精霊」を奪い去ってしまった!世界を救うため、あなたは、
+竜王討伐の旅に出る――。','0000000000001');
+
+insert into syouhinn
+(goods,selling_price,cost_price,stock,goods_detail,nsin)
+values
+('nilu [nilu story 2]',6000,2500,100,'-ストーリー-、「あなたには、果たすべき役割があるーー」
+その声の正体を知るための旅に出る――。','0000000000002');
+
+insert into syouhinn
+(goods,selling_price,cost_price,stock,goods_detail,nsin)
+values
+('nilu [nilu 掃除機 コードレス サイクロン　1.3kg]',7000,2500,100,'サイクロン式掃除機は1.2KG超軽量でありながら、長時間使用しても疲れが感じにくいです。','0000000000003');
+
+insert into syouhinn
+(goods,selling_price,cost_price,stock,goods_detail,user_id,nsin)
+values
+('nilu [nilu story 1]',5000,2500,1,'',2,'0000000000001');
+
+
+-- -------------------------------------------
+-- テーブル(配達)を作成する
+create table delivery(
+ d_id        bigint         primary key auto_increment,
+ nsin        varchar(13) not null, 
+ user_id     bigint,
+ delivery    char(10),
+ pay         varchar(7),
+ foreign key (user_id) references user (id)
+);
+
+
+-- すべての列を取得する
+select * from user;
+select * from syouhinn;
+select * from delivery;
+
+
