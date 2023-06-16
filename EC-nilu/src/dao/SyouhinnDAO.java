@@ -38,7 +38,8 @@ public class SyouhinnDAO {
 				this.cost_price = rs.getInt("cost_price");
 				this.stock = rs.getInt("stock");
 				this.user_id = rs.getLong("user_id");
-				Syouhinn syouhinn = new Syouhinn(kanri_id,goods,goods_detail,selling_price,cost_price,stock,user_id);
+				this.nsin = rs.getString("nsin");
+				Syouhinn syouhinn = new Syouhinn(kanri_id,goods,goods_detail,selling_price,cost_price,stock,user_id,nsin);
 				syouhinnList.add(syouhinn);
 			}
 
@@ -100,6 +101,7 @@ public class SyouhinnDAO {
 				syouhinn.setSelling_price(rs.getInt("selling_price"));
 				syouhinn.setCost_price(rs.getInt("cost_price"));
 				syouhinn.setStock(rs.getInt("stock"));
+				syouhinn.setNsin(rs.getString("nsin"));
 			}
 		} catch (SQLException e) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
@@ -200,7 +202,7 @@ public class SyouhinnDAO {
 		// データベースへ接続
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 			// データベースから在庫数を呼び出す
-			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ? ORDER BY NSIN LIMIT 1";
+			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ? ORDER BY KANRI_ID LIMIT 1";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, syouhinn.getNsin());
 			ResultSet rs = ps.executeQuery();
@@ -217,6 +219,26 @@ public class SyouhinnDAO {
 			ps.setLong(2, this.kanri_id);
 			// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
 			int result = ps.executeUpdate();
+			if (result != 1) {
+				return false;
+			}
+			// データベースから在庫数を呼び出す
+			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ? ORDER BY KANRI_ID DESC LIMIT 1";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, syouhinn.getNsin());
+			rs = ps.executeQuery();
+			// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+			while (rs.next()) {
+				this.kanri_id = rs.getLong("kanri_id");
+			}
+			// UPDATE文の準備
+			sql = "UPDATE SYOUHINN SET STOCK=? WHERE KANRI_ID=?";
+			ps = con.prepareStatement(sql);
+			// UPDATE文中の「?」に使用する値を設定しSQLを完成
+			ps.setInt(1, 0);
+			ps.setLong(2, this.kanri_id);
+			// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
+			result = ps.executeUpdate();
 			if (result != 1) {
 				return false;
 			}

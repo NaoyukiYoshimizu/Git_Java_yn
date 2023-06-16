@@ -17,7 +17,7 @@ public class RegisterUserLogic {
 
 	public boolean create(User user) {
 		UserRegisterDAO dao = new UserRegisterDAO();
-		if (dao.UserRegister(user)) {
+		if (dao.create(user)) {
 			return true;
 		} else {
 			return false;

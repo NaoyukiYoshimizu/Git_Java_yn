@@ -41,7 +41,7 @@ int p_total=0;
 		<tr>
 		 <td></td><th>商品名</th><th>価格</th><td></td>
 		</tr>	
-			<tr><td><p></p></td>
+			<tr><td><img src="images/<%=syouhinn.getNsin()%>.jpg" alt="写真<%=syouhinn.getGoods()%>"></td>
 			<td><p><%=syouhinn.getGoods()%></p></td>
 			<td><h2><%=syouhinn.getSelling_price()%></h2>円</td>			
 			</tr>

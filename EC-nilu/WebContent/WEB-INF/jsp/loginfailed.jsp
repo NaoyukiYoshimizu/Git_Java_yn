@@ -34,8 +34,6 @@ String errorMsg = (String) request.getAttribute("errorMsg");
   <br>
   <br>
   <br>
-  <br>
-  <br>
 <h1>ログイン失敗</h1>
 	<%
 		if (errorMsg.length() != 0) {
@@ -47,6 +45,9 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	<%
 		}
 	%>
+　<br>
+  <br>
+	<a href="/EC-nilu/" >ログイン画面へ戻る</a>
 	  </div>
 </body>
 </html>

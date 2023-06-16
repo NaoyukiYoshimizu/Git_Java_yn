@@ -60,14 +60,20 @@ ld = ld.plusDays(2);
 	<p>商品合計　　　<%=p_total%>円</p><br>
 	<p>送料　　　　　    350円</p><br>
 	<br>
-	総合計　　　　<h2><%=p_total+350%></h2>円
+	総合計　　　　<h2><%=p_total+350%><span>円</span></h2>
 	<br>
 	<input type="submit" name="done" value="注文を確定" class="btn-submit3">
 	<br>
 	<br>
 	<hr>
 	お支払方法　　<select name="pay" >
+			<%
+			if (user.getCredit()!=null) {
+			%>
 			<option value="cre">クレジット一括</option>
+			<%
+			}
+			%>
 			<option value="dai" selected>代引き</option>
 			<option value="dai">コンビニ支払い</option>
 		</select>
@@ -83,7 +89,7 @@ ld = ld.plusDays(2);
 			<%
 			for (Syouhinn incart : incartList) {
 			%>
-			<tr><td><p> </p></td>
+			<tr><td><img src="images/<%=incart.getNsin()%>.jpg" alt="写真<%=incart.getGoods()%>"></td>
 			<td><p><%=incart.getGoods()%></p></td>
 			<td><p><%=incart.getSelling_price()%>円</p></td>
 			<%

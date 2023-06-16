@@ -50,12 +50,109 @@ public class UserRegisterDAO {
 		}	
 	}
 	// 新規作成
-	public boolean UserRegister(User user) {
+	public boolean create(User user) {
+		
 		return true;	
 	}
 	// 更新
 	public boolean update(User user) {
-		return true;	
+		// SQL文の作成
+		String sql = "";
+		if (user.getChoose().matches("name")) {
+			// データベースへ接続
+			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+				// UPDATE文の準備
+				sql = "UPDATE USER SET NAME=? WHERE ID=?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				// UPDATE文中の「?」に使用する値を設定しSQLを完成
+				ps.setString(1, user.getAfter());
+				ps.setLong(2, user.getId());
+				// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
+				int result = ps.executeUpdate();
+				if (result != 1) {
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		} else if (user.getChoose().matches("pass")) {
+			// データベースへ接続
+			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+						// UPDATE文の準備
+						sql = "UPDATE USER SET PASS=? WHERE ID=?";
+						PreparedStatement ps = con.prepareStatement(sql);
+						// UPDATE文中の「?」に使用する値を設定しSQLを完成
+						ps.setString(1, user.getAfter());
+						ps.setLong(2, user.getId());
+						// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
+						int result = ps.executeUpdate();
+						if (result != 1) {
+							return false;
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return false;
+					}
+		} else if (user.getChoose().matches("mail")) {
+			// データベースへ接続
+			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+						// UPDATE文の準備
+						sql = "UPDATE USER SET MAIL=? WHERE ID=?";
+						PreparedStatement ps = con.prepareStatement(sql);
+						// UPDATE文中の「?」に使用する値を設定しSQLを完成
+						ps.setString(1, user.getAfter());
+						ps.setLong(2, user.getId());
+						// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
+						int result = ps.executeUpdate();
+						if (result != 1) {
+							return false;
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return false;
+					}
+		} else if (user.getChoose().matches("address")) {
+			// データベースへ接続
+			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+						// UPDATE文の準備
+						sql = "UPDATE USER SET ADDRESS=? WHERE ID=?";
+						PreparedStatement ps = con.prepareStatement(sql);
+						// UPDATE文中の「?」に使用する値を設定しSQLを完成
+						ps.setString(1, user.getAfter());
+						ps.setLong(2, user.getId());
+						// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
+						int result = ps.executeUpdate();
+						if (result != 1) {
+							return false;
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return false;
+					}
+		} else {
+			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+				// UPDATE文の準備
+				int authority = 1;
+				sql = "UPDATE USER SET AUTHORITY=? WHERE ID=?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				// UPDATE文中の「?」に使用する値を設定しSQLを完成
+				if (user.getAfter().matches(".*あり.*")) {
+					authority = 2;
+				}
+				ps.setInt(1, authority);
+				ps.setLong(2, user.getId());
+				// UPDATE文を実行（resultには正常終了した場合は「1」、正常終了しなかった場合は「0」が代入される）
+				int result = ps.executeUpdate();
+				if (result != 1) {
+					return false;
+				}
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		return true;
 	}
-	
 }

@@ -66,12 +66,16 @@ public class Main extends HttpServlet {
 			kanri_id = Long.parseLong(detail);
 		}catch(NumberFormatException e) {
 			detail = "0";
-			System.out.println("文字列を数値型に変換した際に、数値以外の文字が含まれるなどして変換ができない");
 		}
 
 		// リクエストパラメータチェック
 		if (done.equals("マイページ")) {
-			// SyouhinnList作成
+			// mypage作成
+			loginUser.setId(user_id);
+			RegisterUserLogic registerUserLogic = new RegisterUserLogic();
+			registerUserLogic.edit(loginUser);
+			request.setAttribute("userinfo", loginUser);
+			forwardPath = "/WEB-INF/jsp/mypage.jsp";
 			errorMsg = "";
 		} else if (done.equals("カート")) {
 			// カートリスト作成

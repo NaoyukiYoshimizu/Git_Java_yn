@@ -29,7 +29,7 @@ public class Login  extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String user_id = request.getParameter("user_id");
 		String password = request.getParameter("pass");
-		// パスワードのパターンの生成（半角英数4文字以上8文字以下）
+		// パスワードのパターンの生成（半角英数6文字以上9文字以下）
 		Pattern passPattern = Pattern.compile("^[0-9a-zA-Z]{6,9}$");
 
 		// リクエストパラメータをチェック

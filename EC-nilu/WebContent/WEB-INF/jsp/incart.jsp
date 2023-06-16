@@ -30,12 +30,11 @@ int p_total=0;
 	%>
 	<p>入力エラー</p>
 	<p><%=errorMsg%></p><br>
-	<h2>メンテナンスが必要です</h2>
 	<%
 	}
 	%>
 	<%
-	if (incartList.size() ==0) {
+	if (incartList.size() ==0 || incartList.get(0).getStock()==0) {
 	%>
 	<br>
 	<h2>カートは空です</h2>
@@ -50,7 +49,7 @@ int p_total=0;
 			<%
 			for (Syouhinn incart : incartList) {
 			%>
-			<tr><td><p></p></td>
+			<tr><td><img src="images/<%=incart.getNsin()%>.jpg" alt="写真<%=incart.getGoods()%>"></td>
 			<td><p><%=incart.getGoods()%></p></td>
 			<td><h2><%=incart.getSelling_price()%></h2>円</td>
 			<td><input type="radio" name="delgoods" value="<%=incart.getKanri_id()%>">

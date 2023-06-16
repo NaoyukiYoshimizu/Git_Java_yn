@@ -30,6 +30,9 @@
 	<div class="logout-visual"><!--イメージ写真設定--></div>
 	<div class="logout1">
 	<h1>ログアウトしました</h1>
+	<br>
+	<a href="/EC-nilu/" >ログイン画面へ戻る</a>
+	<br>
 	</div>	
 
   </body>

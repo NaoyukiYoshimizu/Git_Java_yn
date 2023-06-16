@@ -58,12 +58,9 @@ public class Incart extends HttpServlet {
 		long user_id = (loginUser.getId());
 		long kanri_id = 0;
 		try {
-			System.out.println("変換先"+delgoods);
 			kanri_id = Long.parseLong(delgoods);
 		}catch(NumberFormatException e) {
-
 			delgoods = "0";
-			System.out.println("文字列を数値型に変換した際に、数値以外の文字が含まれるなどして変換ができない");
 		}
 
 
@@ -83,6 +80,7 @@ public class Incart extends HttpServlet {
 			List<Syouhinn> incartList = syouhinnLogic.incart(syouhinn);
 			request.setAttribute("incartList", incartList);
 			errorMsg = "";
+			forwardPath = "/WEB-INF/jsp/incart.jsp";
 			}
 		} else if (done.equals("購入手続き")) {
 			// 購入リスト作成

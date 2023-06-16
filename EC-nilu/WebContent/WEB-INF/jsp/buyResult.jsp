@@ -21,10 +21,12 @@ String errorMsg = (String) request.getAttribute("errorMsg");
   <body>
   <div class="container">
     <jsp:include page="/header.jsp"/>
-    
-    お買い上げありがとうございます。
+    <br>
+    <br>
+    <br>
+    お買い上げありがとうございます。<br>
     お届け日は<h1><%=delivery.getDelivery()%></h1>です
-    
+    <br>
   </div>
 
     <jsp:include page="/footer.jsp"/>

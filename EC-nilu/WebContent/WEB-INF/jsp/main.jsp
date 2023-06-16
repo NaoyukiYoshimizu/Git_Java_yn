@@ -19,7 +19,7 @@ String errorMsg = (String) request.getAttribute("errorMsg");
   </head>
   
   <body>
-  
+   <div class="container">
     <jsp:include page="/header.jsp"/>
 <!-- 商品一覧-->
 	<h1>商品一覧</h1>
@@ -28,7 +28,6 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	%>
 	<p>入力エラー</p>
 	<p><%=errorMsg%></p><br>
-	<h2>メンテナンスが必要です</h2>
 	<%
 	}
 	%>			
@@ -41,7 +40,8 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 			for (Syouhinn syouhinn : syouhinnList) {
 			%>
 			
-			<tr><td><p> <%=syouhinn.getKanri_id()%></p></td>
+			<tr>
+			<td><img src="images/<%=syouhinn.getNsin()%>.jpg" alt="写真<%=syouhinn.getGoods()%>"></td>
 			<td><p><%=syouhinn.getGoods()%></p></td>
 			<td><h2><%=syouhinn.getSelling_price()%></h2>円</td>
 			<td><input type="radio" name="detail" value="<%=syouhinn.getKanri_id()%>">
@@ -52,7 +52,8 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 			%>
 	</table>
 	</form>
- <jsp:include page="/footer.jsp"/>
- <script src="js/ch_flag.js">  </script>
+   <jsp:include page="/footer.jsp"/>
+   <script src="js/ch_flag.js">  </script>
+  </div>
   </body>
 </html>
