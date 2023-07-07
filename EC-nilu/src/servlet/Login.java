@@ -29,6 +29,7 @@ public class Login  extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String user_id = request.getParameter("user_id");
 		String password = request.getParameter("pass");
+		String done = request.getParameter("done");
 		// パスワードのパターンの生成（半角英数6文字以上9文字以下）
 		Pattern passPattern = Pattern.compile("^[0-9a-zA-Z]{6,9}$");
 
@@ -47,7 +48,7 @@ public class Login  extends HttpServlet {
 		}
 		// フォワード先を決定する変数urlを定義
 		String forwardPath = "null";
-		if (errorMsg.length() != 0 && (user_id.length() != 0 && password.length() != 0)) {
+		if (errorMsg.length() != 0 && (user_id.length() != 0 && password.length() != 0 && done.equals("ログイン"))) {
 			// LoginUserインスタンスの生成
 			long id = Long.parseLong(user_id);
 			LoginUser loginUser = new LoginUser(id, password);
@@ -82,13 +83,20 @@ public class Login  extends HttpServlet {
 				// フォワード先をloginfailed.jspに選択
 				forwardPath = "/WEB-INF/jsp/loginfailed.jsp";
 			}
+		}else if(done.equals("新規登録")){
+			errorMsg = "";
+			// エラーメッセージをリクエストスコープに保存
+			request.setAttribute("errorMsg", errorMsg);
+			// フォワード先
+			forwardPath = "/newuser.jsp";
 		}else {// ログイン失敗時の処理
 			errorMsg += "ユーザー名またはパスワードが違います<br>";
 			// エラーメッセージをリクエストスコープに保存
 			request.setAttribute("errorMsg", errorMsg);
 			// フォワード先をloginfailed.jspに選択
 			forwardPath = "/WEB-INF/jsp/loginfailed.jsp";
-		}		
+		}
+
 		// ログイン結果の画面へフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
 		dispatcher.forward(request, response);

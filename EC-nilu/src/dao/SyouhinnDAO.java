@@ -11,7 +11,7 @@ import java.util.List;
 import model.Syouhinn;
 
 public class SyouhinnDAO {
-	private final String JDBC_URL = "jdbc:mysql://localhost:3306/shop?characterEncoding=UTF8&serverTimezone=Asia/Tokyo";
+	private final String JDBC_URL = "jdbc:mysql://localhost:3306/shop";
 	private final String DB_USER = "root";
 	private final String DB_PASS = "1Root2";
 	long user_id,kanri_id;
@@ -25,7 +25,7 @@ public class SyouhinnDAO {
 		// SQL文の作成
 		String sql = "";
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
-			sql = "SELECT * FROM SYOUHINN WHERE USER_ID = 1";
+			sql = "SELECT * FROM syouhinn WHERE USER_ID = 1";
 			PreparedStatement ps = con.prepareStatement(sql);
 			// 実行結果取得
 			ResultSet rs = ps.executeQuery();
@@ -57,7 +57,7 @@ public class SyouhinnDAO {
 		String sql = "";
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 			
-			sql = "SELECT * FROM SYOUHINN WHERE USER_ID = ?";
+			sql = "SELECT * FROM syouhinn WHERE USER_ID = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setLong(1, syouhinn.getUser_id());
 			ResultSet rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class SyouhinnDAO {
 		String sql = "";
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 
-			sql = "SELECT * FROM SYOUHINN WHERE KANRI_ID = ?";
+			sql = "SELECT * FROM syouhinn WHERE KANRI_ID = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setLong(1, syouhinn.getKanri_id());
 			ResultSet rs = ps.executeQuery();
@@ -115,7 +115,7 @@ public class SyouhinnDAO {
 		String sql = "";
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 
-			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ?";
+			sql = "SELECT * FROM syouhinn WHERE NSIN = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, syouhinn.getNsin());
 			ResultSet rs = ps.executeQuery();
@@ -136,7 +136,7 @@ public class SyouhinnDAO {
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 
 		// DELETE文の準備
-		String sql = "DELETE FROM SYOUHINN WHERE KANRI_ID=?";
+		String sql = "DELETE FROM syouhinn WHERE KANRI_ID=?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		// DELETE文中の「?」に使用する値を設定しSQLを完成
 		ps.setLong(1, syouhinn.getKanri_id());
@@ -157,7 +157,7 @@ public class SyouhinnDAO {
 	public boolean create(Syouhinn syouhinn) {
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 			// データベースから商品情報を呼び出す
-			String sql = "SELECT * FROM SYOUHINN WHERE KANRI_ID = ?";
+			String sql = "SELECT * FROM syouhinn WHERE KANRI_ID = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setLong(1, syouhinn.getKanri_id());
 			this.user_id = syouhinn.getUser_id();
@@ -173,7 +173,7 @@ public class SyouhinnDAO {
 			}
 			
 			// INSERT文の準備
-			sql = "INSERT INTO SYOUHINN (goods,selling_price,cost_price,stock,goods_detail,user_id,nsin) VALUES (?,?,?,?,?,?,?)";
+			sql = "INSERT INTO syouhinn (goods,selling_price,cost_price,stock,goods_detail,user_id,nsin) VALUES (?,?,?,?,?,?,?)";
 			ps = con.prepareStatement(sql);
 			
 			ps.setString(1, this.goods);
@@ -202,7 +202,7 @@ public class SyouhinnDAO {
 		// データベースへ接続
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 			// データベースから在庫数を呼び出す
-			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ? ORDER BY KANRI_ID LIMIT 1";
+			sql = "SELECT * FROM syouhinn WHERE NSIN = ? ORDER BY KANRI_ID LIMIT 1";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, syouhinn.getNsin());
 			ResultSet rs = ps.executeQuery();
@@ -212,7 +212,7 @@ public class SyouhinnDAO {
 				this.kanri_id = rs.getLong("kanri_id");
 			}
 			// UPDATE文の準備
-			sql = "UPDATE SYOUHINN SET STOCK=? WHERE KANRI_ID=?";
+			sql = "UPDATE syouhinn SET STOCK=? WHERE KANRI_ID=?";
 			ps = con.prepareStatement(sql);
 			// UPDATE文中の「?」に使用する値を設定しSQLを完成
 			ps.setInt(1, this.stock-1);
@@ -223,7 +223,7 @@ public class SyouhinnDAO {
 				return false;
 			}
 			// データベースから在庫数を呼び出す
-			sql = "SELECT * FROM SYOUHINN WHERE NSIN = ? ORDER BY KANRI_ID DESC LIMIT 1";
+			sql = "SELECT * FROM syouhinn WHERE NSIN = ? ORDER BY KANRI_ID DESC LIMIT 1";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, syouhinn.getNsin());
 			rs = ps.executeQuery();
@@ -232,7 +232,7 @@ public class SyouhinnDAO {
 				this.kanri_id = rs.getLong("kanri_id");
 			}
 			// UPDATE文の準備
-			sql = "UPDATE SYOUHINN SET STOCK=? WHERE KANRI_ID=?";
+			sql = "UPDATE syouhinn SET STOCK=? WHERE KANRI_ID=?";
 			ps = con.prepareStatement(sql);
 			// UPDATE文中の「?」に使用する値を設定しSQLを完成
 			ps.setInt(1, 0);

@@ -27,7 +27,6 @@
   	</div>
   </div>
  
-	<div class="logout-visual"><!--イメージ写真設定--></div>
 	<div class="logout1">
 	<h1>ログアウトしました</h1>
 	<br>

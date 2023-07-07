@@ -9,7 +9,7 @@ import model.LoginUser;
 import model.User;
 
 public class UserDAO {
-	private final String JDBC_URL = "jdbc:mysql://localhost:3306/shop?characterEncoding=UTF8&serverTimezone=Asia/Tokyo";
+	private final String JDBC_URL = "jdbc:mysql://localhost:3306/shop";
 	private final String DB_USER = "root";
 	private final String DB_PASS = "1Root2";
 
@@ -19,7 +19,7 @@ public class UserDAO {
 
 		// データベース接続に使用する情報
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
-			String sql = "SELECT * FROM USER WHERE ID = ? AND PASS = ?";
+			String sql = "SELECT * FROM user WHERE ID = ? AND PASS = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 
 			ps.setLong(1, loginUser.getId());

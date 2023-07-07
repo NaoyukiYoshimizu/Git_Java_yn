@@ -52,8 +52,8 @@ int p_total=0;
 			<tr><td><img src="images/<%=incart.getNsin()%>.jpg" alt="写真<%=incart.getGoods()%>"></td>
 			<td><p><%=incart.getGoods()%></p></td>
 			<td><h2><%=incart.getSelling_price()%></h2>円</td>
-			<td><input type="radio" name="delgoods" value="<%=incart.getKanri_id()%>">
-			<p class="buttons"><input type="submit" name="done" class="submit" id="submit" value="削除" ></p></td>
+			<td>
+			<td><button type="submit" class="basic-button" name="done" value="<%=incart.getKanri_id()%>">削除</button></td>
 			</tr>
 
 			<%

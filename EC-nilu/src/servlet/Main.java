@@ -47,7 +47,6 @@ public class Main extends HttpServlet {
 		// リクエストパラメータを取得
 		request.setCharacterEncoding("UTF-8");
 		String done = request.getParameter("done");
-		String detail = request.getParameter("detail");
 		String errorMsg = "";
 		//インスタンス化
 		Syouhinn syouhinn = new Syouhinn();
@@ -59,13 +58,30 @@ public class Main extends HttpServlet {
 		// セッションスコープからユーザー情報を取得
 		HttpSession session = request.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
+		//数字かどうかの判定
+		  boolean result = false;
 
+		  //一文字ずつ先頭から確認する。for文は文字数分繰り返す
+		  for(int i = 0; i < done.length(); i++) {
+		    //i文字めの文字についてCharacter.isDigitメソッドで判定する
+		    if(Character.isDigit(done.charAt(i))) {
+		      //数字の場合は次の文字の判定へ
+		    	result =true;
+		      continue;
+		    }else {
+
+		      //数字でない場合は検証結果をfalseに上書きする
+		      result =false;
+		      break;
+		    }
+		  }
+		  
 		long user_id = (loginUser.getId());
 		long kanri_id = 0;
 		try {	
-			kanri_id = Long.parseLong(detail);
+			//kanri_id = Long.parseLong(detail);
 		}catch(NumberFormatException e) {
-			detail = "0";
+			//detail = "0";
 		}
 
 		// リクエストパラメータチェック
@@ -96,10 +112,8 @@ public class Main extends HttpServlet {
 			// フォワード
 			forwardPath = "/WEB-INF/jsp";
 			errorMsg = "";
-		}else if (done.equals("詳細")) {
-			if(detail == null) {
-				errorMsg += "ラジオボタンを入力してください";
-			}else {
+		}else if (result = true) {
+			kanri_id = Long.parseLong(done);
 			syouhinn.setKanri_id(kanri_id);
 			syouhinnLogic.detail(syouhinn);
 			try {
@@ -111,7 +125,7 @@ public class Main extends HttpServlet {
 			// フォワード
 			forwardPath = "/WEB-INF/jsp/detail.jsp";
 			errorMsg = "";
-			}
+			
 		}else if (done.equals("ログアウト")) {
 			RegisterUserLogic registerUserLogic = new RegisterUserLogic();
 			List<User> userList = registerUserLogic.execute();

@@ -34,7 +34,7 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 	<form action="/EC-nilu/Main" method="post" >
 	<table>
 		<tr>
-		 <td></td><th>商品名</th><th>価格</th><th>詳しく</th>
+		 <td></td><th>商品名</th><th>価格</th><th></th>
 		</tr>	
 			<%
 			for (Syouhinn syouhinn : syouhinnList) {
@@ -44,8 +44,7 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 			<td><img src="images/<%=syouhinn.getNsin()%>.jpg" alt="写真<%=syouhinn.getGoods()%>"></td>
 			<td><p><%=syouhinn.getGoods()%></p></td>
 			<td><h2><%=syouhinn.getSelling_price()%></h2>円</td>
-			<td><input type="radio" name="detail" value="<%=syouhinn.getKanri_id()%>">
-			<p><input type="submit" name="done" value="詳細"></p></td>
+			<td><button type="submit" class="basic-button" name="done" value="<%=syouhinn.getKanri_id()%>">詳細</button></td>
 			</tr>
 			<%
 			}

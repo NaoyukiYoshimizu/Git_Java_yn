@@ -11,7 +11,7 @@ import java.util.List;
 import model.User;
 
 public class UserRegisterDAO {
-	private final String JDBC_URL = "jdbc:mysql://localhost:3306/shop?characterEncoding=UTF8&serverTimezone=Asia/Tokyo";
+	private final String JDBC_URL = "jdbc:mysql://localhost:3306/shop";
 	private final String DB_USER = "root";
 	private final String DB_PASS = "1Root2";
 	
@@ -26,7 +26,7 @@ public class UserRegisterDAO {
 		// SQL文の作成
 		String sql = "";
 		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
-			sql = "SELECT * FROM USER WHERE ID = ?";
+			sql = "SELECT * FROM user WHERE ID = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setLong(1, user.getId());
 			// 実行結果取得
@@ -51,7 +51,38 @@ public class UserRegisterDAO {
 	}
 	// 新規作成
 	public boolean create(User user) {
-		
+		try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+			// INSERT文の準備
+			String sql = "INSERT INTO user (NAME,PASS,MAIL,ADDRESS) VALUES(?, ?,?,?)";
+			PreparedStatement ps = con.prepareStatement(sql);
+			// INSERT文中の「?」に使用する値を設定
+			ps.setString(1, user.getName());
+			ps.setString(2, user.getPass());
+			ps.setString(3, user.getMail());
+			ps.setString(4, user.getAddres());
+
+			// INSERT文を実行
+			int result = ps.executeUpdate();
+
+			if (result != 1) {
+				return false;
+			}else {
+				sql = "SELECT * FROM user WHERE NAME = ?";
+				ps = con.prepareStatement(sql);
+				ps.setString(1, user.getName());
+				// 実行結果取得
+				ResultSet rs = ps.executeQuery();
+				// データがなくなるまで(rs.next()がfalseになるまで)繰り返す
+				while (rs.next()) {
+					// 見つかったアカウント情報を戻り値にセット
+					user.setId(rs.getLong("id"));
+				}
+			}
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 		return true;	
 	}
 	// 更新
@@ -62,7 +93,7 @@ public class UserRegisterDAO {
 			// データベースへ接続
 			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 				// UPDATE文の準備
-				sql = "UPDATE USER SET NAME=? WHERE ID=?";
+				sql = "UPDATE user SET NAME=? WHERE ID=?";
 				PreparedStatement ps = con.prepareStatement(sql);
 				// UPDATE文中の「?」に使用する値を設定しSQLを完成
 				ps.setString(1, user.getAfter());
@@ -80,7 +111,7 @@ public class UserRegisterDAO {
 			// データベースへ接続
 			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 						// UPDATE文の準備
-						sql = "UPDATE USER SET PASS=? WHERE ID=?";
+						sql = "UPDATE user SET PASS=? WHERE ID=?";
 						PreparedStatement ps = con.prepareStatement(sql);
 						// UPDATE文中の「?」に使用する値を設定しSQLを完成
 						ps.setString(1, user.getAfter());
@@ -98,7 +129,7 @@ public class UserRegisterDAO {
 			// データベースへ接続
 			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 						// UPDATE文の準備
-						sql = "UPDATE USER SET MAIL=? WHERE ID=?";
+						sql = "UPDATE user SET MAIL=? WHERE ID=?";
 						PreparedStatement ps = con.prepareStatement(sql);
 						// UPDATE文中の「?」に使用する値を設定しSQLを完成
 						ps.setString(1, user.getAfter());
@@ -112,11 +143,11 @@ public class UserRegisterDAO {
 						e.printStackTrace();
 						return false;
 					}
-		} else if (user.getChoose().matches("address")) {
+		} else if (user.getChoose().matches("addres")) {
 			// データベースへ接続
 			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 						// UPDATE文の準備
-						sql = "UPDATE USER SET ADDRESS=? WHERE ID=?";
+						sql = "UPDATE user SET ADDRESS=? WHERE ID=?";
 						PreparedStatement ps = con.prepareStatement(sql);
 						// UPDATE文中の「?」に使用する値を設定しSQLを完成
 						ps.setString(1, user.getAfter());
@@ -134,7 +165,7 @@ public class UserRegisterDAO {
 			try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 				// UPDATE文の準備
 				int authority = 1;
-				sql = "UPDATE USER SET AUTHORITY=? WHERE ID=?";
+				sql = "UPDATE user SET AUTHORITY=? WHERE ID=?";
 				PreparedStatement ps = con.prepareStatement(sql);
 				// UPDATE文中の「?」に使用する値を設定しSQLを完成
 				if (user.getAfter().matches(".*あり.*")) {

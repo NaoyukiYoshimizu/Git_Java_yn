@@ -64,7 +64,7 @@ public class Item_detail extends HttpServlet {
 			syouhinn.setUser_id(user_id);
 			syouhinn.setKanri_id(kanri_id);
 			if(!syouhinnLogic.create(syouhinn)) {
-				errorMsg = "異常な入力";
+				errorMsg = "同じ商品は1点のみ";
 				forwardPath = "/WEB-INF/jsp/detail.jsp";
 			}
 			try {
